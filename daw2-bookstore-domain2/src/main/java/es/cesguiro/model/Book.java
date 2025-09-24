@@ -3,7 +3,9 @@ package es.cesguiro.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Book {
 
@@ -17,8 +19,8 @@ public class Book {
     private BigDecimal price;
     private String cover;
     private LocalDate publicationDate;
-    private Publisher publisher;
-    private List<Author> authors;
+    private Optional<Publisher> publisher;
+    private Optional<List<Author>> authors;
 
     public Book(
             String isbn,
@@ -43,64 +45,36 @@ public class Book {
         this.price = calculateFinalPrice();
         this.cover = cover;
         this.publicationDate = publicationDate;
-        this.publisher = publisher;
-        this.authors = authors;
+        this.publisher = Optional.ofNullable(publisher);
+        this.authors = Optional.ofNullable(authors);
     }
 
     public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
     public String getTitleEs() {
         return titleEs;
-    }
-
-    public void setTitleEs(String titleEs) {
-        this.titleEs= titleEs;
     }
 
     public String getTitleEn() {
         return titleEn;
     }
 
-    public void setTitleEn(String titleEn) {
-        this.titleEn = titleEn;
-    }
-
     public String getSynopsisEs() {
         return synopsisEs;
-    }
-
-    public void setSynopsisEs(String synopsisEs) {
-        this.synopsisEs = synopsisEs;
     }
 
     public String getSynopsisEn() {
         return synopsisEn;
     }
 
-    public void setSynopsisEn(String synopsisEn) {
-        this.synopsisEn = synopsisEn;
-    }
-
     public BigDecimal getBasePrice() {
         return basePrice;
     }
 
-    public void setBasePrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
-    }
-
     public double getDiscountPercentage() {
         return discountPercentage;
-    }
-
-    public void setDiscountPercentage(double discountPercentage) {
-        this.discountPercentage = discountPercentage;
     }
 
     public BigDecimal getPrice() {
@@ -111,16 +85,8 @@ public class Book {
         return cover;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
     public LocalDate getPublicationDate() {
         return publicationDate;
-    }
-
-    public void setPublicationDate(LocalDate publicationDate) {
-        this.publicationDate = publicationDate;
     }
 
     public BigDecimal calculateFinalPrice() {
@@ -131,24 +97,26 @@ public class Book {
         return basePrice.subtract(discount).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Publisher getPublisher() {
+    public Optional<Publisher> getPublisher() {
         return publisher;
     }
 
     public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
+        this.publisher = Optional.ofNullable(publisher);
     }
 
-    public List<Author> getAuthors() {
+    public Optional<List<Author>> getAuthors() {
         return authors;
     }
 
     public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+        this.authors = Optional.ofNullable(authors);
     }
 
     public void addAuthor(Author author) {
-        this.authors.add(author);
-    }
+        if(this.authors.isEmpty()) {
+            this.authors = Optional.of(new ArrayList<Author>());
+        }
+        this.authors.get().add(author);}
 
 }
