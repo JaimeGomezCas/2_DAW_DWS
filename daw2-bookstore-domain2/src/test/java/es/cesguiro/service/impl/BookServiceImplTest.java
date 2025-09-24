@@ -3,8 +3,8 @@ package es.cesguiro.service.impl;
 import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.model.Book;
 import es.cesguiro.repository.BookRepository;
+import es.cesguiro.repository.entity.AuthorEntity;
 import es.cesguiro.repository.entity.BookEntity;
-import es.cesguiro.service.BookService;
 import es.cesguiro.service.dto.BookDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,8 +82,85 @@ class BookServiceImplTest {
         Mockito.verify(bookRepository).findAll(page, size);
     }
 
+    void createBookMocks(int page, int size) {
+        BookEntity bookEntity1 = new BookEntity(
+                "123",
+                "TitleEs1",
+                "TitleEn1",
+                "SynopsisEs1",
+                "SynopsisEn1",
+                new BigDecimal("10.00"),
+                5,
+                "cover1.jpg", LocalDate.of(2020, 1, 1),
+                new PublisherEntity("alpaca","alpaca"),
+                List.of(new AuthorEntity[]{
+                        new AuthorEntity(
+                                "a",
+                                "s",
+                                "d",
+                                "r",
+                                1,
+                                2309,
+                                "d")
+                })
+        );
+        BookEntity bookEntity2 = new BookEntity(
+                "456",
+                "TitleEs2",
+                "TitleEn2",
+                "SynopsisEs2",
+                "SynopsisEn2",
+                new BigDecimal("15.00"),
+                10,
+                "cover2.jpg", LocalDate.of(2021, 6, 15),
+                new PublisherEntity("alpaca","alpaca"),
+                List.of(new AuthorEntity[]{
+                        new AuthorEntity(
+                                "a",
+                                "s",
+                                "d",
+                                "r",
+                                1,
+                                2309,
+                                "d")
+                })
+        );
+        List<BookEntity> bookEntities = List.of(bookEntity1, bookEntity2);
+        when(bookRepository.findAll(page, size)).thenReturn(bookEntities);
+    }
+
+    @Test
+    void getByIsbn_WhenBookExists(){
+        BookDto bookDto = new BookDto(
+                "123",
+                "TitleEs1",
+                "TitleEn1",
+                "SynopsisEs1",
+                "SynopsisEn1",
+                new BigDecimal("10.00"),
+                5,
+                null,
+                null,
+                null,
+                null,
+                null
+
+        );
+
+        when(bookServiceImpl.getByIsbn("1234")).thenReturn(bookDto);
+
+        BookDto libroDevuelto = bookServiceImpl.getByIsbn("1243");
+
+        assertAll(
+                ()-> assertNotNull(libroDevuelto)
+        );
+
+
+    }
 
     // test getByIsbn when book exists
+
+
 
     // test getByIsbn when book does not exist
 
