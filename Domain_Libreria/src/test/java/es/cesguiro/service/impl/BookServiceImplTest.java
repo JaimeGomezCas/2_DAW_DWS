@@ -198,22 +198,6 @@ class BookServiceImplTest {
 
 
 
-
-        BookDto bookDtoCorrecto = new BookDto(
-                isbn,
-                tituloEs,
-                tituloEn,
-                synopsisEs,
-                synopsisEn,
-                precioBaseCorrecto,
-                porcentajeDescuento,
-                BigDecimal.valueOf(precioBaseCorrecto.(precioBaseCorrecto.divide()porcentajeDescuento))
-                ;
-
-
-
-
-        )
         //Probar que se crea correctamente cuando se introducen todos los datos bien
         //Probar crear un libro con un isbn que ya existe
         //Probar a crear un libro sin autores
@@ -226,6 +210,7 @@ class BookServiceImplTest {
 
 
     // test create book
+
 
     // test create book with existing isbn
 
