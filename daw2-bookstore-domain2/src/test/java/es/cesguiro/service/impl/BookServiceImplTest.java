@@ -170,10 +170,10 @@ class BookServiceImplTest {
     void getByIsbn_BookRepositoryDoesNotExist_ThrowsResourceNotFoundException() { // Este test tiene 2 errores
 
         // Arrange
-        when(bookServiceDto.findByIsbn("999")).thenReturn(Optional.empty());
+        when(bookRepository.findByIsbn("999")).thenReturn(Optional.empty());
 
         // Act + Assert
-        assertThrows(BusinessException.class, () -> bookServiceImpl.getByIsbn("999"));
+        assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn("999"));
 
     }
 
@@ -185,6 +185,52 @@ class BookServiceImplTest {
     void create_ShouldCreateABook (){
 
     }
+
+    // test update book
+
+    @Test
+    @DisplayName("Cambiar un libro existente por otro libro existente sin errores")
+    void metodoUpdate_DeBookServiceImpl_DebeCambiar(){
+
+        // Arrange
+        BookDto bookDto1 = new BookDto(
+                "123",
+                "TitleEs1",
+                "TitleEn1",
+                "SynopsisEs1",
+                "SynopsisEn1",
+                new BigDecimal("10.00"),
+                5,
+                "cover1.jpg", LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        BookEntity bookEntity2 = new BookEntity(
+                "456",
+                "TitleEs2",
+                "TitleEn2",
+                "SynopsisEs2",
+                "SynopsisEn2",
+                new BigDecimal("15.00"),
+                10,
+                "cover2.jpg", LocalDate.of(2021, 6, 15),
+                null,
+                null
+        );
+
+
+        when(bookRepository.update(bookEntity2)).thenReturn(Optional.of(bookEntity2));
+
+        BookDto libroActualizado = bookServiceImpl.update(bookDto1);
+
+        assertNotNull(libroActualizado);
+        // Act
+        // Assert
+
+    }
+
+
+
 
     // test create book with existing isbn
 
