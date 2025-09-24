@@ -147,9 +147,9 @@ class BookServiceImplTest {
 
         );
 
-        when(bookServiceImpl.getByIsbn("1234")).thenReturn(bookDto);
+        when(bookServiceImpl.getByIsbn("123")).thenReturn(bookDto);
 
-        BookDto libroDevuelto = bookServiceImpl.getByIsbn("1243");
+        BookDto libroDevuelto = bookServiceImpl.getByIsbn("124");
 
         assertAll(
                 ()-> assertNotNull(libroDevuelto)
