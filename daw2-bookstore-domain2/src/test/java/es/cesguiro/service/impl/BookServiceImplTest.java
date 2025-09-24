@@ -128,8 +128,38 @@ class BookServiceImplTest {
         when(bookRepository.findAll(page, size)).thenReturn(bookEntities);
     }
 
+    @Test
+    void getByIsbn_WhenBookExists(){
+        BookDto bookDto = new BookDto(
+                "123",
+                "TitleEs1",
+                "TitleEn1",
+                "SynopsisEs1",
+                "SynopsisEn1",
+                new BigDecimal("10.00"),
+                5,
+                null,
+                null,
+                null,
+                null,
+                null
+
+        );
+
+        when(bookServiceImpl.getByIsbn("1234")).thenReturn(bookDto);
+
+        BookDto libroDevuelto = bookServiceImpl.getByIsbn("1243");
+
+        assertAll(
+                ()-> assertNotNull(libroDevuelto)
+        );
+
+
+    }
 
     // test getByIsbn when book exists
+
+
 
     // test getByIsbn when book does not exist
 

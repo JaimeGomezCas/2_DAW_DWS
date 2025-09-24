@@ -3,6 +3,7 @@ package es.cesguiro.service.impl;
 import es.cesguiro.repository.AuthorRepository;
 import es.cesguiro.service.dto.AuthorDto;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,6 +52,10 @@ class AuthorServiceImplTest {
     }
 
     // Test create Author with null AuthorDto
+    @Nested
+    class TestCreateAuthor {
+
+    }
 
     // Test create Author with existing slug
 
