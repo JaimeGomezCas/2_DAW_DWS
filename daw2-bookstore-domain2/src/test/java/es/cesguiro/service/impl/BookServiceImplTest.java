@@ -1,8 +1,10 @@
 package es.cesguiro.service.impl;
 
+import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.model.Book;
 import es.cesguiro.repository.BookRepository;
 import es.cesguiro.repository.entity.BookEntity;
+import es.cesguiro.service.BookService;
 import es.cesguiro.service.dto.BookDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.OngoingStubbing;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -83,6 +86,19 @@ class BookServiceImplTest {
     // test getByIsbn when book exists
 
     // test getByIsbn when book does not exist
+
+    @Test
+    @DisplayName("Cuando uso getByIsbn y el bookEntity no existe, lanza ResourceNotFoundException")
+    void getByIsbn_BookRepositoryDoesNotExist_ThrowsResourceNotFoundException() {
+        // Arrange
+        BookServiceImpl bookServiceImpl = null;
+
+        when(bookServiceImpl.getByIsbn(null)).thenThrow(new ResourceNotFoundException("Book not found"));
+
+        // Act // Assert
+        assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn(null));
+
+    }
 
     // test findByIsbn when book exists
 
