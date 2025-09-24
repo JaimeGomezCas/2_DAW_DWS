@@ -5,6 +5,7 @@ import es.cesguiro.model.Book;
 import es.cesguiro.repository.BookRepository;
 import es.cesguiro.repository.entity.AuthorEntity;
 import es.cesguiro.repository.entity.BookEntity;
+import es.cesguiro.repository.entity.PublisherEntity;
 import es.cesguiro.service.dto.BookDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.mockito.stubbing.OngoingStubbing;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -131,7 +133,7 @@ class BookServiceImplTest {
 
     @Test
     void getByIsbn_WhenBookExists(){
-        BookDto bookDto = new BookDto(
+        BookEntity bookEntity1 = new BookEntity(
                 "123",
                 "TitleEs1",
                 "TitleEn1",
@@ -139,17 +141,15 @@ class BookServiceImplTest {
                 "SynopsisEn1",
                 new BigDecimal("10.00"),
                 5,
-                null,
-                null,
-                null,
+                "cover1.jpg", LocalDate.of(2020, 1, 1),
                 null,
                 null
 
         );
 
-        when(bookServiceImpl.getByIsbn("123")).thenReturn(bookDto);
+        when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntity1));
 
-        BookDto libroDevuelto = bookServiceImpl.getByIsbn("124");
+        BookDto libroDevuelto = bookServiceImpl.getByIsbn("123");
 
         assertAll(
                 ()-> assertNotNull(libroDevuelto)
@@ -177,11 +177,14 @@ class BookServiceImplTest {
 
     }
 
-    // test findByIsbn when book exists
 
-    // test findByIsbn when book does not exist
 
     // test create book
+    @Test
+    @DisplayName("Crear un libro que no exista previamente sin errores")
+    void create_ShouldCreateABook (){
+
+    }
 
     // test create book with existing isbn
 
