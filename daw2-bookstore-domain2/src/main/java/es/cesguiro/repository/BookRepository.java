@@ -10,5 +10,5 @@ public interface BookRepository {
 
     List<BookEntity> findAll(int page, int size);
 
-    Optional<BookEntity> findByIsbn(String isbn);
+    Optional<BookEntity> findByIsbn(String isbn); //Optional vac
 }
