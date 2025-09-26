@@ -5,6 +5,8 @@ import es.cesguiro.model.Book;
 import es.cesguiro.repository.entity.BookEntity;
 import es.cesguiro.service.dto.BookDto;
 
+import java.util.Optional;
+
 public class BookMapper {
 
     private static BookMapper INSTANCE;
@@ -52,8 +54,8 @@ public class BookMapper {
                 book.getDiscountPercentage(),
                 book.getCover(),
                 book.getPublicationDate(),
-                PublisherMapper.getInstance().fromPublisherToPublisherEntity(book.getPublisher()),
-                book.getAuthors().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorEntity).toList()
+                book.getPublisher().isPresent()? PublisherMapper.getInstance().fromPublisherToPublisherEntity(book.getPublisher().get()) : null,
+                book.getAuthors().isPresent()? book.getAuthors().get().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorEntity).toList(): null
         );
     }
 
@@ -92,8 +94,8 @@ public class BookMapper {
                 bookDto.discountPercentage(),
                 bookDto.cover(),
                 bookDto.publicationDate(),
-                PublisherMapper.getInstance().fromPublisherDtoToPublisher(bookDto.publisher()),
-                bookDto.authors().stream().map(AuthorMapper.getInstance()::fromAuthorDtoToAuthor).toList()
+                Optional.ofNullable(PublisherMapper.getInstance().fromPublisherDtoToPublisher(bookDto.publisher())),
+                Optional.ofNullable(bookDto.authors().stream().map(AuthorMapper.getInstance()::fromAuthorDtoToAuthor).toList())
         );
     }
 }

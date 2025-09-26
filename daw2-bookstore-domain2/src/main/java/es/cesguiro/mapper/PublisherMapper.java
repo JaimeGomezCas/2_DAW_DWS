@@ -21,7 +21,7 @@ public class PublisherMapper {
 
     public Publisher fromPublisherEntityToPublisher(PublisherEntity publisherEntity) {
         if (publisherEntity == null) {
-            throw new BusinessException("PublisherEntity cannot be null");
+            return null;
         }
         return new Publisher(
                 publisherEntity.name(),

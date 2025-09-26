@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,8 +59,8 @@ class BookTest {
                 10.0,
                 "cover.jpg",
                 LocalDate.of(2023, 1, 1),
-                null,
-                authors
+                Optional.ofNullable(null),
+                Optional.of(authors)
         );
         Author author = new Author(
                 "Author Name",
@@ -124,7 +125,7 @@ class BookTest {
                 "cover.jpg",
                 LocalDate.of(2023, 1, 1),
                 null,
-                List.of(author)
+                Optional.of(List.of(author))
         );
         assertThrows(BusinessException.class, () -> book.addAuthor(author));
     }
