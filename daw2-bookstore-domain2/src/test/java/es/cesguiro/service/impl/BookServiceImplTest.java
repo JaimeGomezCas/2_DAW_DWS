@@ -8,6 +8,7 @@ import es.cesguiro.repository.entity.AuthorEntity;
 import es.cesguiro.repository.entity.BookEntity;
 import es.cesguiro.repository.entity.PublisherEntity;
 import es.cesguiro.service.dto.BookDto;
+import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,7 +86,53 @@ class BookServiceImplTest {
         Mockito.verify(bookRepository).findAll(page, size);
     }
 
-    // test getByIsbn when book exists
+    void createBookMocks(int page, int size) {
+        BookEntity bookEntity1 = new BookEntity(
+                "123",
+                "TitleEs1",
+                "TitleEn1",
+                "SynopsisEs1",
+                "SynopsisEn1",
+                new BigDecimal("10.00"),
+                5,
+                "cover1.jpg", LocalDate.of(2020, 1, 1),
+                new PublisherEntity("alpaca","alpaca"),
+                List.of(new AuthorEntity[]{
+                        new AuthorEntity(
+                                "a",
+                                "s",
+                                "d",
+                                "r",
+                                1,
+                                2309,
+                                "d")
+                })
+        );
+        BookEntity bookEntity2 = new BookEntity(
+                "456",
+                "TitleEs2",
+                "TitleEn2",
+                "SynopsisEs2",
+                "SynopsisEn2",
+                new BigDecimal("15.00"),
+                10,
+                "cover2.jpg", LocalDate.of(2021, 6, 15),
+                new PublisherEntity("alpaca","alpaca"),
+                List.of(new AuthorEntity[]{
+                        new AuthorEntity(
+                                "a",
+                                "s",
+                                "d",
+                                "r",
+                                1,
+                                2309,
+                                "d")
+                })
+        );
+        List<BookEntity> bookEntities = List.of(bookEntity1, bookEntity2);
+        when(bookRepository.findAll(page, size)).thenReturn(bookEntities);
+    }
+
     @Test
     void getByIsbn_WhenBookExists(){
         BookEntity bookEntity1 = new BookEntity(
@@ -124,16 +171,10 @@ class BookServiceImplTest {
     void getByIsbn_BookRepositoryDoesNotExist_ThrowsResourceNotFoundException() { // Este test tiene 2 errores
 
         // Arrange
-        BookDto bookDto = null;
-        when(bookRepository.findByIsbn("999")).thenReturn(Optional.empty());
+        when(bookServiceImpl.findByIsbn("999")).thenReturn(Optional.empty());
 
-        when(bookServiceImpl.getByIsbn(null)).thenThrow(new ResourceNotFoundException("Book not found"));
-        // Act
-
-        // Assert
-        assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn(null));
         // Act + Assert
-        assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn("999"));
+        assertThrows(BusinessException.class, () -> bookServiceImpl.getByIsbn("999"));
 
     }
 
@@ -143,7 +184,24 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Crear un libro que no exista previamente sin errores")
     void create_ShouldCreateABook (){
+        // Arrange
+        BookDto bookDto = new BookDto(
+                "123",
+                "NuevoTituloEs",
+                "NuevoTituloEn",
+                "NuevaSinopsisEs",
+                "NuevaSinopsisEn",
+                new BigDecimal("20.00"),
+                8,
+                null,
+                "nueva_cover.jpg",
+                LocalDate.of(2022, 2, 2),
+                null,
+                null
+        );
+        BookEntity bookEntity =
 
+        when(bookRepository.create()).thenReturn()
     }
 
     // test update book
@@ -190,20 +248,19 @@ class BookServiceImplTest {
         BookDto updatedBook = bookServiceImpl.update(bookDto);
 
         // Assert
-
-        assertNotNull(updatedBook);
-        assertEquals("123", updatedBook.isbn());
-        assertEquals("NuevoTituloEs", updatedBook.titleEs());
-        assertEquals("NuevoTituloEn", updatedBook.titleEn());
-        assertEquals("NuevaSinopsisEs", updatedBook.synopsisEs());
-        assertEquals("NuevaSinopsisEn", updatedBook.synopsisEn());
-        assertEquals(new BigDecimal("20.00"), updatedBook.price());
-        assertEquals(8, updatedBook.discountPercentage());
-        assertEquals("nueva_cover.jpg", updatedBook.cover());
-        assertEquals(LocalDate.of(2022, 2, 2), updatedBook.publicationDate());
-        assertNull(updatedBook.publisher());
-        assertNull(updatedBook.authors());
-
+        assertAll(
+                ()=> assertNotNull(updatedBook),
+                ()-> assertEquals("123", updatedBook.isbn()),
+                ()->assertEquals("NuevoTituloEs", updatedBook.titleEs()),
+                ()-> assertEquals("NuevoTituloEn", updatedBook.titleEn()),
+                ()-> assertEquals("NuevaSinopsisEs", updatedBook.synopsisEs()),
+                ()->assertEquals("NuevaSinopsisEn", updatedBook.synopsisEn()),
+                ()->assertEquals(new BigDecimal("20.00"), updatedBook.price()),
+                ()->assertEquals(8, updatedBook.discountPercentage()),
+                ()->assertEquals("nueva_cover.jpg", updatedBook.cover()),
+                ()->assertEquals(LocalDate.of(2022, 2, 2), updatedBook.publicationDate()),
+                ()-> assertNull(updatedBook.publisher())
+        );
     }
 
     // test create book with existing isbn

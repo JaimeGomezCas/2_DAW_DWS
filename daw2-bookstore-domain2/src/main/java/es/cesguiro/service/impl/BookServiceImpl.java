@@ -2,6 +2,8 @@ package es.cesguiro.service.impl;
 
 import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.mapper.BookMapper;
+import es.cesguiro.model.Book;
+import es.cesguiro.repository.entity.BookEntity;
 import es.cesguiro.service.dto.BookDto;
 import es.cesguiro.exception.BusinessException;
 import es.cesguiro.repository.BookRepository;
@@ -39,6 +41,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<BookDto> findByIsbn(String isbn) {
+
         return bookRepository.findByIsbn(isbn)
                 .map(BookMapper.getInstance()::fromBookEntityToBook)
                 .map(BookMapper.getInstance()::fromBookToBookDto);
@@ -46,7 +49,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto create(BookDto bookDto) {
-        return null;
+        Book book = BookMapper.getInstance().fromBookDtoToBook(bookDto);
+        BookEntity bookEntity = BookMapper.getInstance().fromBookToBookEntity(book);
+        Book bookCreated = BookMapper.getInstance().fromBookEntityToBook(bookRepository.create(bookEntity).get());
+
+        return BookMapper.getInstance().fromBookToBookDto(bookCreated);
     }
 
     @Override

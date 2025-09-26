@@ -12,6 +12,6 @@ public interface BookRepository {
 
     Optional<BookEntity> findByIsbn(String isbn);
 
-    Optional<BookEntity> create(BookEntity bookEntity)//Optional vac
+    Optional<BookEntity> create(BookEntity bookEntity);//Optional vac
     Optional<BookEntity> update(BookEntity bookEntity);
 }

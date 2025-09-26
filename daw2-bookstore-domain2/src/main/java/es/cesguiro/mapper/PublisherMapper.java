@@ -25,7 +25,8 @@ public class PublisherMapper {
         }
         return new Publisher(
                 publisherEntity.name(),
-                publisherEntity.slug()
+                publisherEntity.slug(),
+                0
         );
     }
 
@@ -55,7 +56,9 @@ public class PublisherMapper {
         }
         return new Publisher(
                 publisherDto.name(),
-                publisherDto.slug()
+                publisherDto.slug(),
+                0
+
         );
     }
 }
