@@ -2,10 +2,12 @@ package es.cesguiro.model;
 
 public class Publisher {
 
+    private long id;
     private String name;
     private String slug;
 
-    public Publisher(String name, String slug) {
+    public Publisher(String name, String slug, long id) {
+        this.id = id;
         this.name = name;
         this.slug = slug;
     }

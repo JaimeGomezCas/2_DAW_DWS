@@ -153,44 +153,58 @@ class BookServiceImplTest {
     void metodoUpdate_DeBookServiceImpl_DebeCambiar(){
 
         // Arrange
-        BookDto bookDto1 = new BookDto(
+        BookDto bookDto = new BookDto(
                 "123",
-                "TitleEs1",
-                "TitleEn1",
-                "SynopsisEs1",
-                "SynopsisEn1",
-                new BigDecimal("10.00"),
-                5,
-                "cover1.jpg", LocalDate.of(2020, 1, 1),
+                "NuevoTituloEs",
+                "NuevoTituloEn",
+                "NuevaSinopsisEs",
+                "NuevaSinopsisEn",
+                new BigDecimal("20.00"),
+                8,
+                null,
+                "nueva_cover.jpg",
+                LocalDate.of(2022, 2, 2),
                 null,
                 null
         );
-        BookEntity bookEntity2 = new BookEntity(
-                "456",
-                "TitleEs2",
-                "TitleEn2",
-                "SynopsisEs2",
-                "SynopsisEn2",
-                new BigDecimal("15.00"),
-                10,
-                "cover2.jpg", LocalDate.of(2021, 6, 15),
+        // Simula el mapeo de DTO a entidad (esto normalmente lo haría el BookMapper)
+        BookEntity bookEntity = new BookEntity(
+                "123",
+                "NuevoTituloEs",
+                "NuevoTituloEn",
+                "NuevaSinopsisEs",
+                "NuevaSinopsisEn",
+                new BigDecimal("20.00"),
+                8,
+                "nueva_cover.jpg",
+                LocalDate.of(2022, 2, 2),
                 null,
                 null
         );
 
 
-        when(bookRepository.update(bookEntity2)).thenReturn(Optional.of(bookEntity2));
+        // Simula que el repositorio devuelve la entidad actualizada
+        when(bookRepository.update(Mockito.any(BookEntity.class))).thenReturn(Optional.of(bookEntity));
 
-        BookDto libroActualizado = bookServiceImpl.update(bookDto1);
-
-        assertNotNull(libroActualizado);
         // Act
+        BookDto updatedBook = bookServiceImpl.update(bookDto);
+
         // Assert
 
+        assertNotNull(updatedBook);
+        assertEquals("123", updatedBook.isbn());
+        assertEquals("NuevoTituloEs", updatedBook.titleEs());
+        assertEquals("NuevoTituloEn", updatedBook.titleEn());
+        assertEquals("NuevaSinopsisEs", updatedBook.synopsisEs());
+        assertEquals("NuevaSinopsisEn", updatedBook.synopsisEn());
+        assertEquals(new BigDecimal("20.00"), updatedBook.price());
+        assertEquals(8, updatedBook.discountPercentage());
+        assertEquals("nueva_cover.jpg", updatedBook.cover());
+        assertEquals(LocalDate.of(2022, 2, 2), updatedBook.publicationDate());
+        assertNull(updatedBook.publisher());
+        assertNull(updatedBook.authors());
+
     }
-
-
-
 
     // test create book with existing isbn
 

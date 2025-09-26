@@ -7,6 +7,7 @@ import java.util.List;
 
 public class PublisherServiceImpl implements PublisherService {
 
+
     @Override
     public List<PublisherDto> getAll() {
         return null;
@@ -31,4 +32,6 @@ public class PublisherServiceImpl implements PublisherService {
     public PublisherDto delete(String slug) {
         return null;
     }
+
+
 }

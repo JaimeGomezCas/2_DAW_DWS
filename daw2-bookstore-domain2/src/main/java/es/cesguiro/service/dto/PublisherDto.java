@@ -4,4 +4,7 @@ public record PublisherDto(
         String name,
         String slug
 ) {
+
+
+
 }
