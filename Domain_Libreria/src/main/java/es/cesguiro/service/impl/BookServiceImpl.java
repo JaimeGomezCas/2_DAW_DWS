@@ -2,6 +2,8 @@ package es.cesguiro.service.impl;
 
 import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.mapper.BookMapper;
+import es.cesguiro.model.Book;
+import es.cesguiro.repository.entity.BookEntity;
 import es.cesguiro.service.dto.BookDto;
 import es.cesguiro.exception.BusinessException;
 import es.cesguiro.repository.BookRepository;
@@ -46,7 +48,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto create(BookDto bookDto) {
-        return null;
+        BookMapper mapper = BookMapper.getInstance();
+        return Optional.of(bookDto)
+                .map(mapper::fromBookDtoToBook)
+                .map(mapper::fromBookToBookEntity)
+                .map(bookRepository::create)
+                .map(mapper::fromBookEntityToBook)
+                .map(mapper::fromBookToBookDto)
+                .orElseThrow(() -> new BusinessException("Creation failed"));
     }
 
     @Override
