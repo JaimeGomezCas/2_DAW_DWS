@@ -243,22 +243,50 @@ class BookServiceImplTest {
             verify(bookRepository, never()).create(any(BookEntity.class));
         }
 
+        @Test
+        @DisplayName("Throws an exception when the discount is greater than 100")
+        void create_ThrowsException_WhenDiscountOver100(){
+            BookDto bookDto = new BookDto(
+                    isbn,
+                    tituloEs,
+                    tituloEn,
+                    synopsisEs,
+                    synopsisEn,
+                    precioBaseCorrecto,
+                    100,
+                    precioFinal,
+                    cover,
+                    fechaPublicacion,
+                    publisherDto,
+                    autores
+            );
+            assertThrows(BusinessException.class,
+                    ()->bookServiceImpl.create(bookDto)
+            );
+            verify(bookRepository, never()).create(any(BookEntity.class));
+        }
 
-        //Probar a crear un libro con un descuento negativo
-        //Probar a crear un libro con un descuento de 100 0 mas
-        //Probar a crear un libro con precio base negativo
+        @Test
+        @DisplayName("Throws an exception when atempt to create a book with existing isbn")
+        void create_ThrowsException_WhenIsbnExists(){
+
+
+            when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntity1));
+
+
+
+        }
     }
 
 
 
-    // test create book
+
 
 
     // test create book with existing isbn
 
     // test create book with invalid data
 
-    // test create book with non-existing authors
 
     // .....
 
