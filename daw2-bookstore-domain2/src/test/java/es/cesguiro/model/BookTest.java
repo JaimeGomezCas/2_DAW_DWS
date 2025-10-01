@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookTest {
 
-    @ParameterizedTest(name = "{index} => basePrice={0}, discountPercentage={1}, expectedPrice={2}")
+     @ParameterizedTest(name = "{index} => basePrice={0}, discountPercentage={1}, expectedPrice={2}")
     @DisplayName("Calculate final price with various discounts")
     @CsvSource({
             "100.00, 15.0, 85.00",
@@ -59,8 +59,8 @@ class BookTest {
                 10.0,
                 "cover.jpg",
                 LocalDate.of(2023, 1, 1),
-                Optional.ofNullable(null),
-                Optional.of(authors)
+                null,
+                authors
         );
         Author author = new Author(
                 "Author Name",
@@ -125,7 +125,7 @@ class BookTest {
                 "cover.jpg",
                 LocalDate.of(2023, 1, 1),
                 null,
-                Optional.of(List.of(author))
+                List.of(author)
         );
         assertThrows(BusinessException.class, () -> book.addAuthor(author));
     }
