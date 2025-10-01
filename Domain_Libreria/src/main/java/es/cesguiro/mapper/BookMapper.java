@@ -22,6 +22,10 @@ public class BookMapper {
     public Book fromBookEntityToBook(BookEntity bookEntity) {
         if (bookEntity == null) {
             throw new BusinessException("BookEntity cannot be null");
+        } else if (bookEntity.authors().isEmpty()) {
+            throw new BusinessException("A book has to have at least one author");
+        } else if (bookEntity.discountPercentage() < 0|| bookEntity.discountPercentage() >= 100) {
+            throw new BusinessException("Discounts invalid");
         }
         return new Book(
                 bookEntity.isbn(),
@@ -41,6 +45,10 @@ public class BookMapper {
     public BookEntity fromBookToBookEntity(Book book) {
         if (book == null) {
             throw new BusinessException("Book cannot be null");
+        } else if (book.getAuthors().isEmpty()) {
+            throw new BusinessException("Book cannot be null");
+        } else if (book.getDiscountPercentage() < 0|| book.getDiscountPercentage() >= 100) {
+            throw new BusinessException("Discounts invalid");
         }
         return new BookEntity(
                 book.getIsbn(),
@@ -59,6 +67,10 @@ public class BookMapper {
 
     public BookDto fromBookToBookDto(Book book) {
         if (book == null) {
+            throw new BusinessException("BookDto cannot be null");
+        } else if (book.getDiscountPercentage() < 0|| book.getDiscountPercentage() >= 100) {
+            throw new BusinessException("Discounts invalid");
+        } else if (book.getAuthors().isEmpty()) {
             throw new BusinessException("Book cannot be null");
         }
         return new BookDto(
@@ -81,6 +93,10 @@ public class BookMapper {
     public Book fromBookDtoToBook(BookDto bookDto) {
         if (bookDto == null) {
             throw new BusinessException("BookDto cannot be null");
+        } else if (bookDto.discountPercentage() < 0 || bookDto.discountPercentage() >= 100) {
+            throw new BusinessException("Discounts invalid");
+        }else if (bookDto.authors().isEmpty()) {
+            throw new BusinessException("Book cannot be null");
         }
         return new Book(
                 bookDto.isbn(),
@@ -96,4 +112,7 @@ public class BookMapper {
                 bookDto.authors().stream().map(AuthorMapper.getInstance()::fromAuthorDtoToAuthor).toList()
         );
     }
+
+
+
 }
