@@ -6,21 +6,24 @@ import es.cesguiro.service.dto.PublisherDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class PublisherServiceImplTest {
 
     @Mock
-    PublisherRepository publisherRepository;
+    private PublisherRepository publisherRepository;
 
     @InjectMocks
-    PublisherServiceImpl publisherServiceImpl;
+    private PublisherServiceImpl publisherServiceImpl;
 
     @Nested
     class TestGetBySlug{
