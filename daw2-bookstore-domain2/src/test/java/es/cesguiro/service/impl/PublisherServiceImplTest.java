@@ -6,14 +6,18 @@ import es.cesguiro.service.dto.PublisherDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class PublisherServiceImplTest {
 
     @Mock
@@ -21,6 +25,17 @@ class PublisherServiceImplTest {
 
     @InjectMocks
     PublisherServiceImpl publisherServiceImpl;
+
+    @Test
+    @DisplayName("getAll when there are publishers")
+    void getAll_WhenThereArePublishers(){
+        PublisherEntity publisher = new PublisherEntity(1, "Ben", "ben");
+        ArrayList<PublisherEntity> publisherList = new ArrayList<>();
+        publisherList.add(publisher);
+
+        when(publisherRepository.findAll(1,1)).thenReturn((publisherList));
+
+    }
 
     @Nested
     class TestGetBySlug{
