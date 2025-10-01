@@ -20,9 +20,7 @@ public class PublisherMapper {
     }
 
     public Publisher fromPublisherEntityToPublisher(PublisherEntity publisherEntity) {
-        if (publisherEntity == null) {
-            return null;
-        }
+
         return new Publisher(
                 publisherEntity.name(),
                 publisherEntity.slug(),
@@ -31,34 +29,30 @@ public class PublisherMapper {
     }
 
     public PublisherEntity fromPublisherToPublisherEntity(Publisher publisher) {
-        if (publisher == null) {
-            throw new BusinessException("Publisher cannot be null");
-        }
+
         return new PublisherEntity(
+
+                publisher.getId(),
                 publisher.getName(),
                 publisher.getSlug()
         );
     }
 
     public PublisherDto fromPublisherToPublisherDto(Publisher publisher) {
-        if (publisher == null) {
-            throw new BusinessException("Publisher cannot be null");
-        }
+
         return new PublisherDto(
+                publisher.getId(),
                 publisher.getName(),
                 publisher.getSlug()
         );
     }
 
     public Publisher fromPublisherDtoToPublisher(PublisherDto publisherDto) {
-        if (publisherDto == null) {
-            throw new BusinessException("PublisherDto cannot be null");
-        }
+
         return new Publisher(
                 publisherDto.name(),
                 publisherDto.slug(),
-                0
-
+                publisherDto.id()
         );
     }
 }

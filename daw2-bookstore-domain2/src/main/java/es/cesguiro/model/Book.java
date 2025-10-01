@@ -19,8 +19,8 @@ public class Book {
     private BigDecimal price;
     private String cover;
     private LocalDate publicationDate;
-    private Optional<Publisher> publisher;
-    private Optional<List<Author>> authors;
+    private Publisher publisher;
+    private List<Author> authors;
 
     public Book(
             String isbn,
@@ -45,8 +45,8 @@ public class Book {
         this.price = calculateFinalPrice();
         this.cover = cover;
         this.publicationDate = publicationDate;
-        this.publisher = Optional.ofNullable(publisher);
-        this.authors = Optional.ofNullable(authors);
+        this.publisher = publisher;
+        this.authors = authors;
     }
 
     public String getIsbn() {
@@ -97,26 +97,27 @@ public class Book {
         return basePrice.subtract(discount).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Optional<Publisher> getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = Optional.ofNullable(publisher);
-    }
-
-    public Optional<List<Author>> getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
     public void setAuthors(List<Author> authors) {
-        this.authors = Optional.ofNullable(authors);
+        this.authors = authors;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public void addAuthor(Author author) {
         if(this.authors.isEmpty()) {
-            this.authors = Optional.of(new ArrayList<Author>());
+            this.authors = new ArrayList<Author>();
         }
-        this.authors.get().add(author);}
+        this.authors.add(author);
+    }
 
 }
