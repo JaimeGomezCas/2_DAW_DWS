@@ -12,6 +12,8 @@ import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -116,7 +118,42 @@ class BookServiceImplTest {
     }
 
     // test getByIsbn when book exists
+    @Test
+    @DisplayName("getByIsbn devuelve el libro cuando existe")
+    void getByIsbn_WhenBookExists_ReturnsBookDto() {
+        // Arrange
+        BookEntity bookEntity = new BookEntity(
+                "123",
+                "TituloEs",
+                "TituloEn",
+                "SinopsisEs",
+                "SinopsisEn",
+                new BigDecimal("10.00"),
+                5,
+                "cover.jpg",
+                LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntity));
 
+        // Act
+        BookDto result = bookServiceImpl.getByIsbn("123");
+
+        // Assert
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertEquals("123", result.isbn()),
+                () -> assertEquals("TituloEs", result.titleEs()),
+                () -> assertEquals("TituloEn", result.titleEn()),
+                () -> assertEquals("SinopsisEs", result.synopsisEs()),
+                () -> assertEquals("SinopsisEn", result.synopsisEn()),
+                () -> assertEquals(new BigDecimal("10.00"), result.price()),
+                () -> assertEquals(5, result.discountPercentage()),
+                () -> assertEquals("cover.jpg", result.cover()),
+                () -> assertEquals(LocalDate.of(2020, 1, 1), result.publicationDate())
+        );
+    }
 
 
     // test getByIsbn when book does not exist
@@ -129,7 +166,7 @@ class BookServiceImplTest {
         when(bookServiceImpl.findByIsbn("999")).thenReturn(Optional.empty());
 
         // Act + Assert
-        assertThrows(BusinessException.class, () -> bookServiceImpl.getByIsbn("999"));
+        assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn("999"));
 
     }
 
@@ -217,10 +254,93 @@ class BookServiceImplTest {
     }
 
     // test create book with existing isbn
+    @Test
+    @DisplayName("Cuando se mete un isbn nuevo que coincide con el de un libro existente, debe dar error BusinessException (Lógica de Negocio) (El error se debe validar en la capa de Libro)")
+    void metodoCreate_DeBookServiceImpl_DebeDarError_siElIsbnDadoExiste() {
+        // Arrange
+        BookDto bookDto = new BookDto(
+                "123",
+                "TituloExistente",
+                "TituloExistenteEn",
+                "SinopsisExistente",
+                "SinopsisExistenteEn",
+                new BigDecimal("10.00"),
+                5,
+                null,
+                "cover_existente.jpg",
+                LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        BookEntity bookEntityExistente = new BookEntity(
+                "123",
+                "TituloExistente",
+                "TituloExistenteEn",
+                "SinopsisExistente",
+                "SinopsisExistenteEn",
+                new BigDecimal("10.00"),
+                5,
+                "cover_existente.jpg",
+                LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntityExistente));
 
-    // test create book with invalid data
+        // Act & Assert
+        assertThrows(BusinessException.class, () -> bookServiceImpl.create(bookDto));
+    }
 
-    // test create book with non-existing authors
+    /* NO BORRAR - Este invalid data corresponderia a capas superiores
+    @Test
+    @DisplayName("Usando el CSV para test parametrizados, comprueba que:" +
+            "-  los descuentos solo puedan ir de 0 a 100" +
+             "- los precios solo pueden ser positivos (no pueden ser negativos)"  +
+              "- el isbn debe tener 13 numeros " +
+                "- Titulos y sinopsis en los diferentes idiomas no pueden estar vacios (no hay nada escrito)" +
+                    "- Las imagenes deben terminar en .png, .webp o .jpg")
+*/
+    // test create book with invalid data | Hay que tener en cuenta que aqui comprobaremos todo lo relacionado con la base de datos
+
+   /* @Test
+    @DisplayName("Usando el CSV para test parametrizados, y teniendo en cuenta que aqui solo vamos a trabajar con datos relacionados con la base de datos " +
+            "De forma general que haya datos en la base de datos repetidos que no se pueden repetir (BusinessException)" +
+                "Cosas muy concretas como que la fecha de publicacion del libro no puede ser anterior al nacimiento de su propio autor ")   */
+
+
+    @ParameterizedTest
+    @CsvSource({
+            // isbn duplicado
+            "'123','Titulo','TituloEn','Sinopsis','SinopsisEn',10.00,5,'cover.jpg',2020-01-01",
+            // sinopsis duplicada
+            "'456','Titulo','TituloEn','SinopsisDuplicada','SinopsisEn',12.00,10,'cover2.jpg',2021-05-01",
+            // cover duplicada
+            "'789','Titulo','TituloEn','Sinopsis','SinopsisEn',15.00,20,'cover_duplicada.jpg',2022-03-01"
+    })
+    @DisplayName("No debe permitir datos duplicados: isbn, sinopsis o cover")
+    void createBook_WithDuplicatedIsbnSynopsisOrCover_ShouldThrowBusinessException(
+            String isbn, String titleEs, String titleEn, String synopsisEs, String synopsisEn,
+            BigDecimal price, int discount, String cover, LocalDate publicationDate) {
+
+        BookDto bookDto = new BookDto(
+                isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, null, cover, publicationDate, null, null
+        );
+
+        // Simula que existe un libro con el mismo isbn, sinopsis o cover
+        BookEntity existingBook = new BookEntity(
+                isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, cover, publicationDate, null, null
+        );
+
+        // Mock para isbn
+        when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(existingBook));
+        // Mock para sinopsis
+        when(bookRepository.findBySynopsisEs(synopsisEs)).thenReturn(Optional.of(existingBook));
+        // Mock para cover
+        when(bookRepository.findByCover(cover)).thenReturn(Optional.of(existingBook));
+
+        assertThrows(BusinessException.class, () -> bookServiceImpl.create(bookDto));
+    }
+
 
     // .....
 
