@@ -49,9 +49,10 @@ class PublisherServiceImplTest {
 
             assertEquals(publisher.slug(), publisherDto.slug());
 
-
         }
     }
+
+
 //    @Test
 //    @DisplayName("Update publisher")
 //    void updatePublisher() {
