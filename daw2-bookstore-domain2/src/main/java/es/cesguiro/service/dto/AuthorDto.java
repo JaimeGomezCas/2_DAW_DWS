@@ -9,4 +9,5 @@ public record AuthorDto(
         Integer deathYear,
         String slug
 ) {
+
 }
