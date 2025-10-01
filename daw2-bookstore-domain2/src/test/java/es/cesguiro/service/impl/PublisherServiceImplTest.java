@@ -35,6 +35,7 @@ class PublisherServiceImplTest {
 
         when(publisherRepository.findAll(1,1)).thenReturn((publisherList));
 
+        assertNotNull(publisherServiceImpl.getAll(1,1));
     }
 
     @Nested
