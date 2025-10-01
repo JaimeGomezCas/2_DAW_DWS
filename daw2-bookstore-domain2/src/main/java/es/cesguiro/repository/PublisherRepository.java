@@ -7,8 +7,11 @@ import es.cesguiro.repository.entity.PublisherEntity;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.Optional;
+
 public interface PublisherRepository {
-    PublisherEntity publisherEntity (PublisherEntity publisherEntity);
+
+    Optional<PublisherEntity> findBySlug(String slug);
 
     List<PublisherEntity> findAll(int page, int size);
 

@@ -41,7 +41,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<BookDto> findByIsbn(String isbn) {
-
         return bookRepository.findByIsbn(isbn)
                 .map(BookMapper.getInstance()::fromBookEntityToBook)
                 .map(BookMapper.getInstance()::fromBookToBookDto);

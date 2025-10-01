@@ -21,7 +21,7 @@ public class BookMapper {
 
     public Book fromBookEntityToBook(BookEntity bookEntity) {
         if (bookEntity == null) {
-            throw new BusinessException("BookEntity cannot be null");
+            return null;
         }
         return new Book(
                 bookEntity.isbn(),
@@ -40,7 +40,7 @@ public class BookMapper {
 
     public BookEntity fromBookToBookEntity(Book book) {
         if (book == null) {
-            throw new BusinessException("Book cannot be null");
+            return null;
         }
         return new BookEntity(
                 book.getIsbn(),
@@ -59,7 +59,7 @@ public class BookMapper {
 
     public BookDto fromBookToBookDto(Book book) {
         if (book == null) {
-            throw new BusinessException("Book cannot be null");
+            return null;
         }
         return new BookDto(
                 book.getIsbn(),
@@ -80,7 +80,7 @@ public class BookMapper {
 
     public Book fromBookDtoToBook(BookDto bookDto) {
         if (bookDto == null) {
-            throw new BusinessException("BookDto cannot be null");
+            return null;
         }
         return new Book(
                 bookDto.isbn(),

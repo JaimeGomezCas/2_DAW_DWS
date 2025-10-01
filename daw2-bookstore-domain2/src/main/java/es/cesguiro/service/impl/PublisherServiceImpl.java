@@ -1,5 +1,8 @@
 package es.cesguiro.service.impl;
 
+import es.cesguiro.exception.ResourceNotFoundException;
+import es.cesguiro.mapper.PublisherMapper;
+import es.cesguiro.repository.PublisherRepository;
 import es.cesguiro.mapper.PublisherMapper;
 import es.cesguiro.mapper.PublisherMapper;
 import es.cesguiro.model.Publisher;
@@ -12,6 +15,11 @@ import es.cesguiro.service.PublisherService;
 import java.util.List;
 
 public class PublisherServiceImpl implements PublisherService {
+    private final PublisherRepository publisherRepository;
+
+    public PublisherServiceImpl(PublisherRepository publisherRepository) {
+        this.publisherRepository = publisherRepository;
+    }
 
     private PublisherRepository publisherRepository;
 
@@ -27,7 +35,12 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherDto getBySlug(String slug) {
-        return null;
+        PublisherMapper mapper = PublisherMapper.getInstance();
+        return publisherRepository.findBySlug(slug)
+                .map(mapper::fromPublisherEntityToPublisher)
+                .map(mapper::fromPublisherToPublisherDto)
+                .orElseThrow(()->new ResourceNotFoundException("No existe el publisher ese"));
+
     }
 
     @Override
