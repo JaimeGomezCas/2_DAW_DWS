@@ -36,4 +36,6 @@ public record BookDto(
         @NotNull(message = "Authors cant be null")
         List<AuthorDto> authors
 ) {
+
+
 }
