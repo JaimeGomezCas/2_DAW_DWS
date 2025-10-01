@@ -21,7 +21,7 @@ public class PublisherServiceImpl implements PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
-    private PublisherRepository publisherRepository;
+
 
     @Override
     public List<PublisherDto> getAll(int page, int size) {

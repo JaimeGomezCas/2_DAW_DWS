@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 class PublisherServiceImplTest {
 
     @Mock
-    PublisherRepository publisherRepository;
+    private PublisherRepository publisherRepository;
 
     @InjectMocks
-    PublisherServiceImpl publisherServiceImpl;
+    private PublisherServiceImpl publisherServiceImpl;
 
     @Test
     @DisplayName("getAll when there are publishers")
