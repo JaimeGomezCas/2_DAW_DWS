@@ -1,5 +1,11 @@
 package es.cesguiro.service.impl;
 
+import es.cesguiro.mapper.PublisherMapper;
+import es.cesguiro.mapper.PublisherMapper;
+import es.cesguiro.model.Publisher;
+import es.cesguiro.repository.PublisherRepository;
+import es.cesguiro.repository.PublisherRepository;
+import es.cesguiro.repository.entity.PublisherEntity;
 import es.cesguiro.service.dto.PublisherDto;
 import es.cesguiro.service.PublisherService;
 
@@ -7,10 +13,16 @@ import java.util.List;
 
 public class PublisherServiceImpl implements PublisherService {
 
+    private PublisherRepository publisherRepository;
 
     @Override
-    public List<PublisherDto> getAll() {
-        return null;
+    public List<PublisherDto> getAll(int page, int size) {
+        return publisherRepository
+                .findAll(page, size)
+                .stream()
+                .map(PublisherMapper.getInstance()::fromPublisherEntityToPublisher)
+                .map(PublisherMapper.getInstance()::fromPublisherToPublisherDto)
+                .toList();
     }
 
     @Override
@@ -20,7 +32,11 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherDto create(PublisherDto publisherDto) {
-        return null;
+        Publisher publisher = PublisherMapper.getInstance().fromPublisherDtoToPublisher(publisherDto);
+        PublisherEntity publisherEntity = PublisherMapper.getInstance().fromPublisherToPublisherEntity(publisher);
+        Publisher publisherCreated = PublisherMapper.getInstance().fromPublisherEntityToPublisher(publisherRepository.create(publisherEntity).get());
+
+        return PublisherMapper.getInstance().fromPublisherToPublisherDto(publisherCreated);
     }
 
     @Override
