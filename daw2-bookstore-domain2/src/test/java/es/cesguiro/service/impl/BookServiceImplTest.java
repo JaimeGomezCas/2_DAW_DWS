@@ -2,6 +2,7 @@ package es.cesguiro.service.impl;
 
 import es.cesguiro.exception.BusinessException;
 import es.cesguiro.exception.ResourceNotFoundException;
+import es.cesguiro.mapper.BookMapper;
 import es.cesguiro.model.Book;
 import es.cesguiro.repository.BookRepository;
 import es.cesguiro.repository.entity.AuthorEntity;
@@ -367,8 +368,12 @@ class BookServiceImplTest {
                 null,
                 null
         );
-        List<BookDto> librosConElTituloBuscado = List.of(bookDto1, bookDto2);
-
+        BookMapper bookMapper  = BookMapper.getInstance();
+        Book book2 = bookMapper.fromBookDtoToBook(bookDto2);
+        Book book1 = bookMapper.fromBookDtoToBook(bookDto1);
+        BookEntity bookEntity2 = bookMapper.fromBookToBookEntity(book2);
+        BookEntity bookEntity1 = bookMapper.fromBookToBookEntity(book1);
+        List<BookEntity> librosConElTituloBuscado = List.of(bookEntity1, bookEntity2);
         when(bookRepository.findByName("El")).thenReturn(librosConElTituloBuscado);
 
         assertAll(
