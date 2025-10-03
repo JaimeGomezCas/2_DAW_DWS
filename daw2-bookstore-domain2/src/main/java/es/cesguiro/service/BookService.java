@@ -19,5 +19,10 @@ public interface BookService {
 
     void delete(String isbn);
 
+    Optional<BookDto> findBySynopsisEs(String synopsisEs);
+
+    Optional<BookDto> findByCover(String cover);
+
+
     List<BookDto> findByName(String name);
 }

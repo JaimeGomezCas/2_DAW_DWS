@@ -324,8 +324,10 @@ class BookServiceImplTest {
 
         // Mock para isbn
         when(bookRepository.findByIsbn(isbn)).thenReturn(Optional.of(existingBook));
-        // Mock para sinopsis
+        // Mock para sinopsis en Español
         when(bookRepository.findBySynopsisEs(synopsisEs)).thenReturn(Optional.of(existingBook));
+        // Mock para sinopsis en Ingles
+        when(bookRepository.findBySynopsisEn(synopsisEn)).thenReturn(Optional.of(existingBook));
         // Mock para cover
         when(bookRepository.findByCover(cover)).thenReturn(Optional.of(existingBook));
 

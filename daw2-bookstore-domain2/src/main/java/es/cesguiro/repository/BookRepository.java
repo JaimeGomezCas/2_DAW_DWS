@@ -15,4 +15,10 @@ public interface BookRepository {
 
     Optional<BookEntity> create(BookEntity bookEntity);//Optional vac
     Optional<BookEntity> update(BookEntity bookEntity);
+
+    Optional<BookEntity> findBySynopsisEs(String synopsisEs);
+
+    Optional<BookEntity> findByCover(String cover);
+
+    Optional<BookEntity> findBySynopsisEn(String synopsisEn);
 }
