@@ -332,6 +332,49 @@ class BookServiceImplTest {
         assertThrows(BusinessException.class, () -> bookServiceImpl.create(bookDto));
     }
 
+    @Test
+    @DisplayName("Find by name should return a list of bookDto that shares the title")
+    void findByName_ShouldReturnAListOfBookDto(){
+        String tituloBuscado = "El";
+
+        BookDto bookDto1 = new BookDto(
+                "123",
+                "El imperio final",
+                "the final noseque",
+                "SinopsisExistente",
+                "SinopsisExistenteEn",
+                new BigDecimal("10.00"),
+                5,
+                null,
+                "cover_existente.jpg",
+                LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        BookDto bookDto2 = new BookDto(
+                "123",
+                "El quijote",
+                "The quijote",
+                "SinopsisExistente",
+                "SinopsisExistenteEn",
+                new BigDecimal("10.00"),
+                5,
+                null,
+                "cover_existente.jpg",
+                LocalDate.of(2020, 1, 1),
+                null,
+                null
+        );
+        List<BookDto> librosConElTituloBuscado = List.of(bookDto1, bookDto2);
+
+        when(bookRepository.findByName("El")).thenReturn(librosConElTituloBuscado);
+
+        assertAll(
+                ()-> assertEquals(2, librosConElTituloBuscado.size())
+        );
+
+    }
+
 
     // .....
 
