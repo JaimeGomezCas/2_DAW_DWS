@@ -65,4 +65,14 @@ public class BookServiceImpl implements BookService {
     public void delete(String isbn) {
         //https://code-with-me.global.jetbrains.com/0ztDW69ZHs478ZoB8HbHIg
     }
+
+    @Override
+    public List<BookDto> findByName(String name) {
+        return bookRepository
+                .findByName(name)
+                .stream()
+                .map(BookMapper.getInstance()::fromBookEntityToBook)
+                .map(BookMapper.getInstance()::fromBookToBookDto)
+                .toList();
+    }
 }
