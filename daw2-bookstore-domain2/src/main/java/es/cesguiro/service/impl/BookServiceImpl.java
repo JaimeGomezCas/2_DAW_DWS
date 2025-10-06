@@ -67,6 +67,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Optional<BookDto> findBySynopsisEs(String synopsisEs) {
+    return null;
+    }
+
+    @Override
+    public Optional<BookDto> findByCover(String cover) {
+        return Optional.empty();
+    }
+
+    @Override
     public List<BookDto> findByName(String name) {
         return bookRepository
                 .findByName(name)

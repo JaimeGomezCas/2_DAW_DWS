@@ -292,12 +292,12 @@ class BookServiceImplTest {
         assertThrows(BusinessException.class, () -> bookServiceImpl.create(bookDto));
     }
 
-    // test create book with invalid data | Hay que tener en cuenta que aqui comprobaremos todo lo relacionado con la base de datos
+    // test create book with invalid data | Hay que tener en cuenta que aquí comprobaremos to.do lo relacionado con la base de datos
 
    /* @Test
-    @DisplayName("Usando el CSV para test parametrizados, y teniendo en cuenta que aqui solo vamos a trabajar con datos relacionados con la base de datos " +
+    @DisplayName("Usando el CSV para test parametrizados, y teniendo en cuenta que aquí solo vamos a trabajar con datos relacionados con la base de datos" +
             "De forma general que haya datos en la base de datos repetidos que no se pueden repetir (BusinessException)" +
-                "Cosas muy concretas como que la fecha de publicacion del libro no puede ser anterior al nacimiento de su propio autor ")   */
+                "Cosas muy concretas como que la fecha de publicación del libro no puede ser anterior al nacimiento de su propio autor"   */
 
 
     @ParameterizedTest
