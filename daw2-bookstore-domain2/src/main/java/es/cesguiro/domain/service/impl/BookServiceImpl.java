@@ -1,6 +1,6 @@
 package es.cesguiro.domain.service.impl;
 
-import es.cesguiro.exception.BusinessException;
+import es.cesguiro.domain.exception.BusinessException;
 import es.cesguiro.domain.exception.ResourceNotFoundException;
 import es.cesguiro.domain.mapper.BookMapper;
 import es.cesguiro.domain.model.Book;
@@ -49,11 +49,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto create(BookDto bookDto) {
-        Book book = BookMapper.getInstance().fromBookDtoToBook(bookDto);
-        BookEntity bookEntity = BookMapper.getInstance().fromBookToBookEntity(book);
-        Book bookCreated = BookMapper.getInstance().fromBookEntityToBook(bookRepository.create(bookEntity).get());
+       if(bookRepository.findByIsbn(bookDto.isbn()).isEmpty()){
+           return bookRepository.create(
+                           Optional.of(bookDto)
+                                   .map(BookMapper.getInstance()::fromBookDtoToBook)
+                                   .map(BookMapper.getInstance()::fromBookToBookEntity)
+                                   .orElseThrow(()-> new BusinessException("No va"))
+                   )
+                   .stream()
+                   .map(BookMapper.getInstance()::fromBookEntityToBook)
+                   .map(BookMapper.getInstance()::fromBookToBookDto)
+                   .findAny()
+                   .orElseThrow(()->new BusinessException("No va"));
+       } else {
+           throw new BusinessException("Ya existe el libro que quieres crear");
+       }
 
-        return BookMapper.getInstance().fromBookToBookDto(bookCreated);
     }
 
     @Override

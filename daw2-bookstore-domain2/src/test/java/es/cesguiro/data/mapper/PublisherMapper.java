@@ -23,9 +23,10 @@ public class PublisherMapper extends BaseMapper {
             return null;
         }
         return new Publisher(
-                parseLong(csvRecord.get("id")),
+
                 parseString(csvRecord.get("name")),
-                parseString(csvRecord.get("slug"))
+                parseString(csvRecord.get("slug")),
+                parseLong(csvRecord.get("id"))
         );
     }
 
