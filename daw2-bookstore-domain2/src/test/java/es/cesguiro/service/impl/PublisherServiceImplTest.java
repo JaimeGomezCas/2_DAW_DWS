@@ -1,12 +1,17 @@
 package es.cesguiro.service.impl;
 
+import es.cesguiro.exception.BusinessException;
+import es.cesguiro.exception.ValidationException;
 import es.cesguiro.repository.PublisherRepository;
 import es.cesguiro.repository.entity.PublisherEntity;
 import es.cesguiro.service.dto.PublisherDto;
+import es.cesguiro.validator.DtoValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -49,9 +54,36 @@ class PublisherServiceImplTest {
             PublisherDto publisherDto = publisherServiceImpl.getBySlug("cervantes");
 
             assertEquals(publisher.slug(), publisherDto.slug());
-
         }
     }
+
+    @Test
+    @DisplayName("create when received publisher is null")
+    void create_WhenNull(){
+        PublisherEntity publisher = null;
+        when(publisherRepository.findBySlug("cervantes")).thenReturn(Optional.of(publisher));
+
+        PublisherDto publisherDto = publisherServiceImpl.getBySlug("cervantes");
+
+        assertEquals(publisher.slug(), publisherDto.slug());
+    }
+
+    @ParameterizedTest
+    @DisplayName("create when received publisher is null should throw validation error")
+    @CsvSource({
+            "1, 'Cervantes', 'cervantes'",
+            "1, 'Cervantes', cerewijsknfdkjsgnkjsgsjoisjgoi34joif",
+            "1, null, 'cervantes'",
+    })
+    void create_WhenSomeValueIsWrong(long id, String name, String slug){
+        PublisherEntity publisher = new PublisherEntity(id, name, slug);
+        PublisherDto publisherDto = new PublisherDto(id, name, slug);
+
+        when(publisherRepository.create(publisher)).thenReturn(Optional.of(publisher));
+
+        assertThrows(ValidationException.class, () -> DtoValidator.validate(publisherDto));
+    }
+
 
 
 //    @Test
