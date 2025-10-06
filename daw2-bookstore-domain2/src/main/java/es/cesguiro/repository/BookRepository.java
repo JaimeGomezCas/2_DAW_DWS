@@ -11,11 +11,12 @@ public interface BookRepository {
 
     Optional<BookEntity> findByIsbn(String isbn);
 
+
     List<BookEntity> findByName(String name);
 
     Optional<BookEntity> create(BookEntity bookEntity);
 
-    Optional<BookEntity> update(BookEntity bookEntity);
+    Optional<BookEntity> save(BookEntity bookEntity);
 
     Optional<BookEntity> findBySynopsisEs(String synopsisEs);
 

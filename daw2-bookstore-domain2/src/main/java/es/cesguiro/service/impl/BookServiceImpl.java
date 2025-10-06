@@ -1,5 +1,6 @@
 package es.cesguiro.service.impl;
 
+import es.cesguiro.exception.BusinessException;
 import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.mapper.BookMapper;
 import es.cesguiro.model.Book;
@@ -57,7 +58,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(BookDto bookDto) {
-        return null;
+
+        if(bookRepository.findByIsbn(bookDto.isbn()).isEmpty()){
+            throw new ResourceNotFoundException("No existe el libro que buscas actualizar");
+        } else {
+            return bookRepository.save(
+                    Optional.of(bookDto)
+                            .map(BookMapper.getInstance()::fromBookDtoToBook)
+                            .map(BookMapper.getInstance()::fromBookToBookEntity)
+                            .orElseThrow(()-> new BusinessException("No va"))
+            )
+                    .stream()
+                    .map(BookMapper.getInstance()::fromBookEntityToBook)
+                    .map(BookMapper.getInstance()::fromBookToBookDto)
+                    .findAny()
+                    .orElseThrow(()->new BusinessException("No va"));
+        }
 
     }
 

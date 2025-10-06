@@ -4,6 +4,7 @@ import es.cesguiro.exception.BusinessException;
 import es.cesguiro.exception.ResourceNotFoundException;
 import es.cesguiro.mapper.BookMapper;
 import es.cesguiro.model.Book;
+import es.cesguiro.model.Publisher;
 import es.cesguiro.repository.BookRepository;
 import es.cesguiro.repository.entity.AuthorEntity;
 import es.cesguiro.repository.entity.BookEntity;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,8 +104,8 @@ class BookServiceImplTest {
                 new BigDecimal("10.00"),
                 5,
                 "cover1.jpg", LocalDate.of(2020, 1, 1),
-                null,
-                null
+                new PublisherEntity(1,"Pepe", "pepe"),
+                List.of()
 
         );
 
@@ -129,12 +131,12 @@ class BookServiceImplTest {
                 "TituloEn",
                 "SinopsisEs",
                 "SinopsisEn",
-                new BigDecimal("10.00"),
+                new BigDecimal("10.0"),
                 5,
                 "cover.jpg",
                 LocalDate.of(2020, 1, 1),
-                null,
-                null
+                new PublisherEntity(1,"Pepe", "pepe"),
+                List.of()
         );
         when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntity));
 
@@ -149,7 +151,7 @@ class BookServiceImplTest {
                 () -> assertEquals("TituloEn", result.titleEn()),
                 () -> assertEquals("SinopsisEs", result.synopsisEs()),
                 () -> assertEquals("SinopsisEn", result.synopsisEn()),
-                () -> assertEquals(new BigDecimal("10.00"), result.price()),
+                () -> assertEquals(new BigDecimal("9.50"), result.price()),
                 () -> assertEquals(5, result.discountPercentage()),
                 () -> assertEquals("cover.jpg", result.cover()),
                 () -> assertEquals(LocalDate.of(2020, 1, 1), result.publicationDate())
@@ -201,25 +203,11 @@ class BookServiceImplTest {
     @DisplayName("Cambiar un libro existente por otro libro existente sin errores")
     void metodoUpdate_DeBookServiceImpl_DebeCambiar(){
 
-        // Arrange
-        BookDto bookDto = new BookDto(
-                "123",
-                "NuevoTituloEs",
-                "NuevoTituloEn",
-                "NuevaSinopsisEs",
-                "NuevaSinopsisEn",
-                new BigDecimal("20.00"),
-                8,
-                null,
-                "nueva_cover.jpg",
-                LocalDate.of(2022, 2, 2),
-                null,
-                null
-        );
+
         // Simula el mapeo de DTO a entidad (esto normalmente lo haría el BookMapper)
-        BookEntity bookEntity = new BookEntity(
+        BookEntity bookEntitySinActualizar = new BookEntity(
                 "123",
-                "NuevoTituloEs",
+                "Titulo NOrmal",
                 "NuevoTituloEn",
                 "NuevaSinopsisEs",
                 "NuevaSinopsisEn",
@@ -227,30 +215,42 @@ class BookServiceImplTest {
                 8,
                 "nueva_cover.jpg",
                 LocalDate.of(2022, 2, 2),
-                null,
-                null
+                new PublisherEntity( 1L,"Pepe","pepe"),
+                List.of()
         );
+        BookEntity bookEntityActualizado = new BookEntity(
+                "ACTUALIZADO",
+                "ACTUALIZADO",
+                "ACTUALIZADO",
+                "ACTUALIZADO",
+                "ACTUALIZADO",
+                new BigDecimal("20.00"),
+                8,
+                "nueva_cover.jpg",
+                LocalDate.of(2022, 2, 2),
+                new PublisherEntity( 1L,"Pepe","pepe"),
+                List.of()
+        );
+
 
 
         // Simula que el repositorio devuelve la entidad actualizada
-        when(bookRepository.update(Mockito.any(BookEntity.class))).thenReturn(Optional.of(bookEntity));
-
+        when(bookRepository.findByIsbn("123")).thenReturn(Optional.of(bookEntitySinActualizar));
+        when(bookRepository.save(any(BookEntity.class))).thenReturn(Optional.of(bookEntityActualizado));
+        BookMapper mapper = BookMapper.getInstance();
+        Book libroSinActualizar = mapper.fromBookEntityToBook(bookEntitySinActualizar);
+        BookDto libroDtoSinActualizar = mapper.fromBookToBookDto(libroSinActualizar);
         // Act
-        BookDto updatedBook = bookServiceImpl.update(bookDto);
+        BookDto updatedBook = bookServiceImpl.update(libroDtoSinActualizar);
 
         // Assert
         assertAll(
                 ()-> assertNotNull(updatedBook),
-                ()-> assertEquals("123", updatedBook.isbn()),
-                ()->assertEquals("NuevoTituloEs", updatedBook.titleEs()),
-                ()-> assertEquals("NuevoTituloEn", updatedBook.titleEn()),
-                ()-> assertEquals("NuevaSinopsisEs", updatedBook.synopsisEs()),
-                ()->assertEquals("NuevaSinopsisEn", updatedBook.synopsisEn()),
-                ()->assertEquals(new BigDecimal("20.00"), updatedBook.price()),
-                ()->assertEquals(8, updatedBook.discountPercentage()),
-                ()->assertEquals("nueva_cover.jpg", updatedBook.cover()),
-                ()->assertEquals(LocalDate.of(2022, 2, 2), updatedBook.publicationDate()),
-                ()-> assertNull(updatedBook.publisher())
+                ()-> assertEquals("ACTUALIZADO", updatedBook.isbn()),
+                ()->assertEquals("ACTUALIZADO", updatedBook.titleEs()),
+                ()-> assertEquals("ACTUALIZADO", updatedBook.titleEn()),
+                ()-> assertEquals("ACTUALIZADO", updatedBook.synopsisEs()),
+                ()->assertEquals("ACTUALIZADO", updatedBook.synopsisEn())
         );
     }
 
