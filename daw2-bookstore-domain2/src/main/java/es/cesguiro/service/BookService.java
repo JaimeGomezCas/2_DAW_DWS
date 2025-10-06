@@ -21,8 +21,9 @@ public interface BookService {
 
     Optional<BookDto> findBySynopsisEs(String synopsisEs);
 
-    Optional<BookDto> findByCover(String cover);
+    Optional<BookDto> findBySynopsisEn(String synopsisEn);
 
+    Optional<BookDto> findByCover(String cover);
 
     List<BookDto> findByName(String name);
 }

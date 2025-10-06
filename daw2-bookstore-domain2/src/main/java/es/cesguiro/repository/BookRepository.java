@@ -13,7 +13,8 @@ public interface BookRepository {
 
     List<BookEntity> findByName(String name);
 
-    Optional<BookEntity> create(BookEntity bookEntity);//Optional vac
+    Optional<BookEntity> create(BookEntity bookEntity);
+
     Optional<BookEntity> update(BookEntity bookEntity);
 
     Optional<BookEntity> findBySynopsisEs(String synopsisEs);
