@@ -68,7 +68,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<BookDto> findBySynopsisEs(String synopsisEs) {
-    return null;
+        return bookRepository.findBySynopsisEs(synopsisEs)
+                .map(BookMapper.getInstance()::fromBookEntityToBook)
+                .map(BookMapper.getInstance()::fromBookToBookDto);
+    }
+
+    public Optional<BookDto> findBySynopsisEn(String synopsisEn) {
+        return bookRepository.findBySynopsisEs(synopsisEn)
+                .map(BookMapper.getInstance()::fromBookEntityToBook)
+                .map(BookMapper.getInstance()::fromBookToBookDto);
     }
 
     @Override
