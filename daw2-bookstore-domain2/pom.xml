@@ -40,11 +40,31 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.junit.version>5.10.3</org.junit.version>
         <org.mockito.version>5.12.0</org.mockito.version>
-        <org.apache.maven.plugins.version>3.5.2</org.apache.maven.plugins.version>
+        <org.apache.maven.surefire.plugin.version>3.5.2</org.apache.maven.surefire.plugin.version>
+        <org.apache.maven.compiler.plugin.version>3.14.0</org.apache.maven.compiler.plugin.version>
+        <org.apache.commons.csv.version>1.13.0</org.apache.commons.csv.version>
+        <jakarta.validation.version>3.1.1</jakarta.validation.version>
         <org.hibernate.validator>9.0.1.Final</org.hibernate.validator>
+        <jakarta.transaction.version>2.0.1</jakarta.transaction.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${org.hibernate.validator}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <version>${jakarta.transaction.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -58,19 +78,29 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${org.hibernate.validator}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${org.apache.commons.csv.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin Surefire para ejecutar pruebas con JUnit 5 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${org.apache.maven.plugins.version}</version>
+                <version>${org.apache.maven.surefire.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${org.apache.maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <parameters>true</parameters>
+                </configuration>
             </plugin>
         </plugins>
     </build>
