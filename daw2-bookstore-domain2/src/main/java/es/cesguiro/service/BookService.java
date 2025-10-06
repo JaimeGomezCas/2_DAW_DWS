@@ -4,6 +4,7 @@ import es.cesguiro.service.dto.BookDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface BookService {
 
@@ -22,7 +23,6 @@ public interface BookService {
     Optional<BookDto> findBySynopsisEs(String synopsisEs);
 
     Optional<BookDto> findByCover(String cover);
-
 
     List<BookDto> findByName(String name);
 }

@@ -5,12 +5,12 @@ import es.cesguiro.mapper.BookMapper;
 import es.cesguiro.model.Book;
 import es.cesguiro.repository.entity.BookEntity;
 import es.cesguiro.service.dto.BookDto;
-import es.cesguiro.exception.BusinessException;
 import es.cesguiro.repository.BookRepository;
 import es.cesguiro.service.BookService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BookServiceImpl implements BookService {
 
@@ -73,13 +73,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<BookDto> findByCover(String cover) {
-        return Optional.empty();
+        return bookRepository.findByIsbn(cover)
+                .map(BookMapper.getInstance()::fromBookEntityToBook)
+                .map(BookMapper.getInstance()::fromBookToBookDto);
     }
 
     @Override
     public List<BookDto> findByName(String name) {
-        return bookRepository
-                .findByName(name)
+        return bookRepository.findByName(name)
                 .stream()
                 .map(BookMapper.getInstance()::fromBookEntityToBook)
                 .map(BookMapper.getInstance()::fromBookToBookDto)
