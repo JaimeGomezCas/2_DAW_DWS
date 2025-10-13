@@ -23,7 +23,7 @@ public class PublisherMapper {
         return new Publisher(
                 publisherEntity.name(),
                 publisherEntity.slug(),
-                0
+                publisherEntity.id()
         );
     }
 
