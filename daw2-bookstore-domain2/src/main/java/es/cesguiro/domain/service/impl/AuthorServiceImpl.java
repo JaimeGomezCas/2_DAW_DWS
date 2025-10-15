@@ -6,6 +6,7 @@ import es.cesguiro.domain.repository.AuthorRepository;
 import es.cesguiro.domain.repository.entity.AuthorEntity;
 import es.cesguiro.domain.service.dto.AuthorDto;
 import es.cesguiro.domain.service.AuthorService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -18,16 +19,19 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public List<AuthorDto> getAll() {
         return List.of();
     }
 
     @Override
+    @Transactional
     public AuthorDto getBySlug(String slug) {
         return null;
     }
 
     @Override
+    @Transactional
     public AuthorDto create(AuthorDto authorDto) {
         Author author = AuthorMapper.getInstance().fromAuthorDtoToAuthor(authorDto);
         AuthorEntity authorEntity = AuthorMapper.getInstance().fromAuthorToAuthorEntity(author);
@@ -37,11 +41,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public AuthorDto update(AuthorDto authorDto) {
         return null;
     }
 
     @Override
+    @Transactional
     public int delete(String slug) {
         return 0;
     }

@@ -9,6 +9,7 @@ import es.cesguiro.domain.model.Publisher;
 import es.cesguiro.domain.repository.entity.PublisherEntity;
 import es.cesguiro.domain.service.dto.PublisherDto;
 import es.cesguiro.domain.service.PublisherService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +22,8 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
 
-
     @Override
+    @Transactional
     public List<PublisherDto> getAll(int page, int size) {
         return publisherRepository
                 .findAll(page, size)
@@ -33,6 +34,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
+    @Transactional
     public PublisherDto getBySlug(String slug) {
         PublisherMapper mapper = PublisherMapper.getInstance();
         return publisherRepository.findBySlug(slug)
@@ -43,6 +45,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
+    @Transactional
     public PublisherDto create(PublisherDto publisherDto) {
         Publisher publisher = PublisherMapper.getInstance().fromPublisherDtoToPublisher(publisherDto);
         PublisherEntity publisherEntity = PublisherMapper.getInstance().fromPublisherToPublisherEntity(publisher);
@@ -52,6 +55,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
+    @Transactional
     public PublisherDto update(PublisherDto publisherDto) {
         PublisherEntity existingPublisher = publisherRepository.findById(publisherDto.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Publisher with id " + publisherDto.id() + " not found"));
@@ -66,6 +70,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     /*@Override
+@Transactional
     public PublisherDto update(PublisherDto publisherDto) {
         if(publisherRepository.findById(publisherDto.id()).isEmpty()) {
             throw new ResourceNotFoundException("Publisher con id: "+publisherDto.id()+" no existe");
@@ -85,6 +90,7 @@ public class PublisherServiceImpl implements PublisherService {
     }*/
 
     @Override
+    @Transactional
     public PublisherDto delete(String slug) {
         return null;
     }
