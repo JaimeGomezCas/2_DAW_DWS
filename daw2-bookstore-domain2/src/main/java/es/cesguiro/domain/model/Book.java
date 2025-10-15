@@ -1,5 +1,7 @@
 package es.cesguiro.domain.model;
 
+import es.cesguiro.domain.exception.BusinessException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -89,11 +91,15 @@ public class Book {
     }
 
     public BigDecimal calculateFinalPrice() {
-        BigDecimal discount = basePrice
-                .multiply(BigDecimal.valueOf(discountPercentage))
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        if(discountPercentage < 0.0 || discountPercentage > 100.0) {
+            return basePrice;
+        }else{
+            BigDecimal discount = basePrice
+                    .multiply(BigDecimal.valueOf(discountPercentage))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-        return basePrice.subtract(discount).setScale(2, RoundingMode.HALF_UP);
+            return basePrice.subtract(discount).setScale(2, RoundingMode.HALF_UP);
+        }
     }
 
     public List<Author> getAuthors() {
@@ -113,10 +119,12 @@ public class Book {
     }
 
     public void addAuthor(Author author) {
-        if(this.authors.isEmpty()) {
-            this.authors = new ArrayList<Author>();
-        }
-        this.authors.add(author);
+        if(author != null) {
+            if (this.authors == null || this.authors.isEmpty()) {
+                this.authors = new ArrayList<Author>();
+            }
+            this.authors.add(author);
+        }else throw new BusinessException("Author no puede ser null");
     }
 
 }

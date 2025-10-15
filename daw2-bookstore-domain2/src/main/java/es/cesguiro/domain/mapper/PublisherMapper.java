@@ -19,12 +19,13 @@ public class PublisherMapper {
     }
 
     public Publisher fromPublisherEntityToPublisher(PublisherEntity publisherEntity) {
-
-        return new Publisher(
-                publisherEntity.name(),
-                publisherEntity.slug(),
-                publisherEntity.id()
-        );
+        if(publisherEntity != null){
+            return new Publisher(
+                    publisherEntity.name(),
+                    publisherEntity.slug(),
+                    publisherEntity.id()
+            );
+        }else return null;
     }
 
     public PublisherEntity fromPublisherToPublisherEntity(Publisher publisher) {
@@ -47,11 +48,13 @@ public class PublisherMapper {
     }
 
     public Publisher fromPublisherDtoToPublisher(PublisherDto publisherDto) {
+        if(publisherDto != null) {
+            return new Publisher(
+                    publisherDto.name(),
+                    publisherDto.slug(),
+                    publisherDto.id()
+            );
+        }else return null;
 
-        return new Publisher(
-                publisherDto.name(),
-                publisherDto.slug(),
-                publisherDto.id()
-        );
     }
 }

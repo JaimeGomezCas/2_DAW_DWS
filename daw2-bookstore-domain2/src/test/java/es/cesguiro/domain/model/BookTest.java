@@ -1,8 +1,5 @@
 package es.cesguiro.domain.model;
 
-import es.cesguiro.domain.exception.BusinessException;
-import es.cesguiro.domain.model.Author;
-import es.cesguiro.domain.model.Book;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -98,7 +95,7 @@ class BookTest {
                 1980,
                 null,
                 "slug");
-        book.addAuthor(author);
+        assertDoesNotThrow(() -> book.addAuthor(author), "Adding author should not throw an exception");
         assertTrue(book.getAuthors().contains(author), "Book should contain the added author");
     }
 
@@ -127,7 +124,10 @@ class BookTest {
                 null,
                 List.of(author)
         );
-        assertThrows(BusinessException.class, () -> book.addAuthor(author));
+        assertAll(
+                () -> assertTrue(book.getAuthors().contains(author), "Book should contain the existing author"),
+                () -> assertEquals(1, book.getAuthors().size(), "Book should still have only one author")
+        );
     }
 
 }

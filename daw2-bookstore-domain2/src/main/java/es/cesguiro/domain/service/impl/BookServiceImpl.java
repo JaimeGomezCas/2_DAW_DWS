@@ -3,8 +3,6 @@ package es.cesguiro.domain.service.impl;
 import es.cesguiro.domain.exception.BusinessException;
 import es.cesguiro.domain.exception.ResourceNotFoundException;
 import es.cesguiro.domain.mapper.BookMapper;
-import es.cesguiro.domain.model.Book;
-import es.cesguiro.domain.repository.entity.BookEntity;
 import es.cesguiro.domain.service.dto.BookDto;
 import es.cesguiro.domain.repository.BookRepository;
 import es.cesguiro.domain.service.BookService;
@@ -12,7 +10,6 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class BookServiceImpl implements BookService {
 
@@ -54,7 +51,11 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto create(BookDto bookDto) {
-        if (bookRepository.findByIsbn(bookDto.isbn()).isEmpty()) {
+        if (bookRepository.findByIsbn(bookDto.isbn()).isEmpty() &
+                bookRepository.findBySynopsisEs(bookDto.synopsisEs()).isEmpty() &
+                bookRepository.findBySynopsisEn(bookDto.synopsisEn()).isEmpty() &
+                bookRepository.findByCover(bookDto.cover()).isEmpty()
+        ) {
             return bookRepository.create(
                             Optional.of(bookDto)
                                     .map(BookMapper.getInstance()::fromBookDtoToBook)

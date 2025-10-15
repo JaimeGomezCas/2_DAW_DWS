@@ -1,5 +1,6 @@
 package es.cesguiro.domain.mapper;
 
+import es.cesguiro.domain.exception.BusinessException;
 import es.cesguiro.domain.model.Book;
 import es.cesguiro.domain.repository.entity.BookEntity;
 import es.cesguiro.domain.service.dto.BookDto;
@@ -32,8 +33,8 @@ public class BookMapper {
                 bookEntity.discountPercentage(),
                 bookEntity.cover(),
                 bookEntity.publicationDate(),
-                PublisherMapper.getInstance().fromPublisherEntityToPublisher(bookEntity.publisher()),
-                bookEntity.authors().stream().map(AuthorMapper.getInstance()::fromAuthorEntityToAuthor).toList()
+                bookEntity.publisher()!=null? PublisherMapper.getInstance().fromPublisherEntityToPublisher(bookEntity.publisher()) : null,
+                bookEntity.authors()!=null? bookEntity.authors().stream().map(AuthorMapper.getInstance()::fromAuthorEntityToAuthor).toList() : null
         );
     }
 
@@ -51,14 +52,14 @@ public class BookMapper {
                 book.getDiscountPercentage(),
                 book.getCover(),
                 book.getPublicationDate(),
-                PublisherMapper.getInstance().fromPublisherToPublisherEntity(book.getPublisher()),
-                book.getAuthors().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorEntity).toList()
+                book.getPublisher()!=null? PublisherMapper.getInstance().fromPublisherToPublisherEntity(book.getPublisher()) : null,
+                book.getAuthors()!=null? book.getAuthors().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorEntity).toList() : null
         );
     }
 
     public BookDto fromBookToBookDto(Book book) {
         if (book == null) {
-            return null;
+            throw new BusinessException("Cannot map null Book to BookDto");
         }
         return new BookDto(
                 book.getIsbn(),
@@ -71,8 +72,8 @@ public class BookMapper {
                 book.calculateFinalPrice(),
                 book.getCover(),
                 book.getPublicationDate(),
-                PublisherMapper.getInstance().fromPublisherToPublisherDto(book.getPublisher()),
-                book.getAuthors().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorDto).toList()
+                book.getPublisher()!=null? PublisherMapper.getInstance().fromPublisherToPublisherDto(book.getPublisher()) : null,
+                book.getAuthors()!=null? book.getAuthors().stream().map(AuthorMapper.getInstance()::fromAuthorToAuthorDto).toList() : null
         );
     }
 
@@ -91,8 +92,8 @@ public class BookMapper {
                 bookDto.discountPercentage(),
                 bookDto.cover(),
                 bookDto.publicationDate(),
-                PublisherMapper.getInstance().fromPublisherDtoToPublisher(bookDto.publisher()),
-                bookDto.authors().stream().map(AuthorMapper.getInstance()::fromAuthorDtoToAuthor).toList()
+                bookDto.publisher()!=null? PublisherMapper.getInstance().fromPublisherDtoToPublisher(bookDto.publisher()) : null,
+                bookDto.authors()!=null? bookDto.authors().stream().map(AuthorMapper.getInstance()::fromAuthorDtoToAuthor).toList() : null
         );
     }
 }

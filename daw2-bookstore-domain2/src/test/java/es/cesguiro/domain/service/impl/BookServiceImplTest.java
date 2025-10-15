@@ -8,8 +8,6 @@ import es.cesguiro.domain.repository.BookRepository;
 import es.cesguiro.domain.repository.entity.BookEntity;
 import es.cesguiro.domain.repository.entity.PublisherEntity;
 import es.cesguiro.domain.service.dto.BookDto;
-import es.cesguiro.domain.service.impl.BookServiceImpl;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -168,30 +166,6 @@ class BookServiceImplTest {
 
         // Act + Assert
         assertThrows(ResourceNotFoundException.class, () -> bookServiceImpl.getByIsbn("999"));
-
-    }
-
-
-
-    // test create book
-    @Test
-    @DisplayName("Crear un libro que no exista previamente sin errores")
-    void create_ShouldCreateABook (){
-        // Arrange
-        BookDto bookDto = new BookDto(
-                "123",
-                "NuevoTituloEs",
-                "NuevoTituloEn",
-                "NuevaSinopsisEs",
-                "NuevaSinopsisEn",
-                new BigDecimal("20.00"),
-                8,
-                null,
-                "nueva_cover.jpg",
-                LocalDate.of(2022, 2, 2),
-                null,
-                null
-        );
 
     }
 
@@ -371,11 +345,12 @@ class BookServiceImplTest {
         Book book1 = bookMapper.fromBookDtoToBook(bookDto1);
         BookEntity bookEntity2 = bookMapper.fromBookToBookEntity(book2);
         BookEntity bookEntity1 = bookMapper.fromBookToBookEntity(book1);
+
         List<BookEntity> librosConElTituloBuscado = List.of(bookEntity1, bookEntity2);
-        when(bookRepository.findByName("El")).thenReturn(librosConElTituloBuscado);
+        when(bookRepository.findByName(tituloBuscado)).thenReturn(librosConElTituloBuscado);
 
         assertAll(
-                ()-> assertEquals(2, librosConElTituloBuscado.size())
+                ()-> assertEquals(librosConElTituloBuscado.size(), bookRepository.findByName(tituloBuscado).size())
         );
 
     }
