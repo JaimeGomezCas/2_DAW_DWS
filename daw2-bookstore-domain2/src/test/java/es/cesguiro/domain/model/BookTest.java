@@ -24,6 +24,7 @@ class BookTest {
     })
     void calculateFinalPrice(String basePrice, double discountPercentage, String expectedPrice) {
         Book book = new Book(
+                1,
                 "978-3-16-148410-0",
                 "Título en Español",
                 "Title in English",
@@ -44,9 +45,10 @@ class BookTest {
     @DisplayName("Test add Author to Book")
     void testAddAuthorToBook() {
         ArrayList<Author> authors = new ArrayList<>();
-        Author existingAuthor = new Author("Existing Author", null, null, null, 1900, null, null);
+        Author existingAuthor = new Author(1,"Existing Author", null, null, null, 1900, null, null);
         authors.add(existingAuthor);
         Book book = new Book(
+                1,
                 "978-3-16-148410-0",
                 "Título en Español",
                 "Title in English",
@@ -60,6 +62,7 @@ class BookTest {
                 authors
         );
         Author author = new Author(
+                1,
                 "Author Name",
                 "nationality",
                 "BioEs",
@@ -75,6 +78,7 @@ class BookTest {
     @DisplayName("Add Author to Book with null Authors list")
     void addAuthorToBookWithNullAuthorsList() {
         Book book = new Book(
+                1,
                 "978-3-16-148410-0",
                 "Título en Español",
                 "Title in English",
@@ -88,6 +92,7 @@ class BookTest {
                 null
         );
         Author author = new Author(
+                1,
                 "Author Name",
                 "nationality",
                 "BioEs",
@@ -103,6 +108,7 @@ class BookTest {
     @DisplayName("Add existing Author to Book")
     void addExistingAuthorToBook() {
         Author author = new Author(
+                1,
                 "Author Name",
                 "nationality",
                 "BioEs",
@@ -112,6 +118,7 @@ class BookTest {
                 "slug");
 
         Book book = new Book(
+                1,
                 "978-3-16-148410-0",
                 "Título en Español",
                 "Title in English",

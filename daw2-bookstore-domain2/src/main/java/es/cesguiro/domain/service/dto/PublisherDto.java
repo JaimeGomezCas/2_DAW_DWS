@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record PublisherDto(
-        Long id,
+        long id,
         @NotNull(message = "Nombre no puede ser nulo")
         String name,
         @NotNull(message = "Slug no puede ser nulo")

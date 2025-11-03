@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record BookDto(
+        long id ,
         @NotNull(message = "Isbn no puede ser null")
         @Pattern(regexp = "^(?:ISBN(?:-1[03])?:?\\s*)?(?=[-0-9X\\s]{10,17}$)(?:97[89][-\\s]?)?[0-9]{1,5}[-\\s]?[0-9]+[-\\s]?[0-9]+[-\\s]?[0-9X]$\n",
         message = "Isbn tiene un formato invalido")

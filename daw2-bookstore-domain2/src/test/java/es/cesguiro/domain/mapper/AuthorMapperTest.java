@@ -14,7 +14,7 @@ class AuthorMapperTest {
     @DisplayName("Test map AuthorEntity to Author")
     void toAuthor() {
         // Arrange
-        AuthorEntity authorEntity = new AuthorEntity("name", "nationality", "biographyEs", "biographyEn", 1990, 2020, "slug");
+        AuthorEntity authorEntity = new AuthorEntity(1,"name", "nationality", "biographyEs", "biographyEn", 1990, 2020, "slug");
 
         // Act
         var author = AuthorMapper.getInstance().fromAuthorEntityToAuthor(authorEntity);
@@ -46,8 +46,8 @@ class AuthorMapperTest {
     void toAuthorList() {
         // Arrange
         var authorEntities = java.util.List.of(
-                new AuthorEntity("name1", "nationality1", "biographyEs1", "biographyEn1", 1990, 2020, "slug1"),
-                new AuthorEntity("name2", "nationality2", "biographyEs2", "biographyEn2", 1980, null, "slug2")
+                new AuthorEntity(1,"name1", "nationality1", "biographyEs1", "biographyEn1", 1990, 2020, "slug1"),
+                new AuthorEntity(1,"name2", "nationality2", "biographyEs2", "biographyEn2", 1980, null, "slug2")
         );
 
         // Act

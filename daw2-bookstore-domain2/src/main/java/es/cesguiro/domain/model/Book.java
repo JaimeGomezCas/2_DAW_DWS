@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
-
+    private long id;
     private String isbn;
     private String titleEs;
     private String titleEn;
@@ -24,6 +24,7 @@ public class Book {
     private List<Author> authors;
 
     public Book(
+            long id,
             String isbn,
             String titleEs,
             String titleEn,
@@ -36,6 +37,7 @@ public class Book {
             Publisher publisher,
             List<Author> authors
     ) {
+        this.id = id;
         this.isbn = isbn;
         this.titleEs = titleEs;
         this.titleEn = titleEn;
@@ -48,6 +50,14 @@ public class Book {
         this.publicationDate = publicationDate;
         this.publisher = publisher;
         this.authors = authors;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getIsbn() {

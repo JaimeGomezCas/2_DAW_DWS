@@ -1,6 +1,7 @@
 package es.cesguiro.domain.repository.entity;
 
 public record AuthorEntity(
+        long id,
         String name,
         String nationality,
         String biographyEs,

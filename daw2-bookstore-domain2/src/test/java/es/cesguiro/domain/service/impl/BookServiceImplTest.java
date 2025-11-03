@@ -45,6 +45,7 @@ class BookServiceImplTest {
 
         // Mock books
         BookEntity bookEntity1 = new BookEntity(
+                1,
                 "123",
                 "TitleEs1",
                 "TitleEn1",
@@ -57,6 +58,7 @@ class BookServiceImplTest {
                 null
         );
         BookEntity bookEntity2 = new BookEntity(
+                1,
                 "456",
                 "TitleEs2",
                 "TitleEn2",
@@ -92,6 +94,7 @@ class BookServiceImplTest {
     @Test
     void getByIsbn_WhenBookExists(){
         BookEntity bookEntity1 = new BookEntity(
+                1,
                 "123",
                 "TitleEs1",
                 "TitleEn1",
@@ -122,6 +125,7 @@ class BookServiceImplTest {
     void getByIsbn_WhenBookExists_ReturnsBookDto() {
         // Arrange
         BookEntity bookEntity = new BookEntity(
+                1,
                 "123",
                 "TituloEs",
                 "TituloEn",
@@ -178,6 +182,7 @@ class BookServiceImplTest {
 
         // Simula el mapeo de DTO a entidad (esto normalmente lo haría el BookMapper)
         BookEntity bookEntitySinActualizar = new BookEntity(
+                1,
                 "123",
                 "Titulo NOrmal",
                 "NuevoTituloEn",
@@ -191,6 +196,7 @@ class BookServiceImplTest {
                 List.of()
         );
         BookEntity bookEntityActualizado = new BookEntity(
+                1,
                 "ACTUALIZADO",
                 "ACTUALIZADO",
                 "ACTUALIZADO",
@@ -232,6 +238,7 @@ class BookServiceImplTest {
     void metodoCreate_DeBookServiceImpl_DebeDarError_siElIsbnDadoExiste() {
         // Arrange
         BookDto bookDto = new BookDto(
+                1,
                 "123",
                 "TituloExistente",
                 "TituloExistenteEn",
@@ -246,6 +253,7 @@ class BookServiceImplTest {
                 null
         );
         BookEntity bookEntityExistente = new BookEntity(
+                1,
                 "123",
                 "TituloExistente",
                 "TituloExistenteEn",
@@ -287,12 +295,12 @@ class BookServiceImplTest {
             BigDecimal price, int discount, String cover, LocalDate publicationDate) {
 
         BookDto bookDto = new BookDto(
-                isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, null, cover, publicationDate, null, null
+                1,isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, null, cover, publicationDate, null, null
         );
 
         // Simula que existe un libro con el mismo isbn, sinopsis o cover
         BookEntity existingBook = new BookEntity(
-                isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, cover, publicationDate, null, null
+                1,isbn, titleEs, titleEn, synopsisEs, synopsisEn, price, discount, cover, publicationDate, null, null
         );
 
         // Mock para isbn
@@ -313,6 +321,7 @@ class BookServiceImplTest {
         String tituloBuscado = "El";
 
         BookDto bookDto1 = new BookDto(
+                1,
                 "123",
                 "El imperio final",
                 "the final noseque",
@@ -327,6 +336,7 @@ class BookServiceImplTest {
                 null
         );
         BookDto bookDto2 = new BookDto(
+                1,
                 "123",
                 "El quijote",
                 "The quijote",

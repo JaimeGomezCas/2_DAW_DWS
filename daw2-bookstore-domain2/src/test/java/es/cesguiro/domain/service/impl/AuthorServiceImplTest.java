@@ -30,6 +30,7 @@ class AuthorServiceImplTest {
     void create_ShouldReturnCreatedAuthorDto() {
         // Arrange
         AuthorDto authorDto = new AuthorDto(
+                1,
                 "author1",
                 "nationality1",
                 "BioEs",

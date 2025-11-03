@@ -24,6 +24,7 @@ class BookMapperTest {
     void toBookDto() {
         // Arrange
         var book = new Book(
+                1,
                 "978-84-376-0494-7",
                 "TitleEs",
                 "TitleEn",
@@ -38,8 +39,8 @@ class BookMapperTest {
         );
         book.setPublisher(new Publisher("Publisher Name", "publisher-slug", 1));
         book.setAuthors(List.of(
-                new Author("Author One", "nationality1", "Bio1", "Bio1En", 1970, null, "author-one"),
-                new Author("Author Two", "nationality2", "Bio2", "Bio2En", 1980, 2020, "author-two")
+                new Author(1,"Author One", "nationality1", "Bio1", "Bio1En", 1970, null, "author-one"),
+                new Author(2,"Author Two", "nationality2", "Bio2", "Bio2En", 1980, 2020, "author-two")
         ));
 
         // Act
@@ -80,6 +81,7 @@ class BookMapperTest {
     void toBook() {
         // Arrange
         var bookEntity = new BookEntity(
+                1,
                 "978-84-376-0494-7",
                 "TitleEs",
                 "TitleEn",
@@ -91,8 +93,8 @@ class BookMapperTest {
                 LocalDate.of(2020, 1, 1),
                 new PublisherEntity(1,"Publisher Name", "publisher-slug"),
                 List.of(
-                        new AuthorEntity("Author One", "nationality1", "Bio1", "Bio1En", 1970, null, "author-one"),
-                        new AuthorEntity("Author Two", "nationality2", "Bio2", "Bio2En", 1980, 2020, "author-two")
+                        new AuthorEntity(1,"Author One", "nationality1", "Bio1", "Bio1En", 1970, null, "author-one"),
+                        new AuthorEntity(2,"Author Two", "nationality2", "Bio2", "Bio2En", 1980, 2020, "author-two")
                 )
         );
 

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record AuthorDto(
+        long id,
         @NotNull(message = "No puede ser nulo")
         String name,
         String nationality,

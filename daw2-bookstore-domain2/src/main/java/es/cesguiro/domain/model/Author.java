@@ -2,6 +2,7 @@ package es.cesguiro.domain.model;
 
 public class Author {
 
+    private long id;
     private String name;
     private String nationality;
     private String biographyEs;
@@ -10,7 +11,8 @@ public class Author {
     private Integer deathYear;
     private String slug;
 
-    public Author(String name, String nationality, String biographyEs, String biographyEn, int birthYear, Integer deathYear, String slug) {
+    public Author(long id, String name, String nationality, String biographyEs, String biographyEn, int birthYear, Integer deathYear, String slug) {
+        this.id = id;
         this.name = name;
         this.nationality = nationality;
         this.biographyEs = biographyEs;
@@ -75,5 +77,13 @@ public class Author {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
