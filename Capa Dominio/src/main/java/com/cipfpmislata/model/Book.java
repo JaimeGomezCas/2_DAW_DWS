@@ -53,12 +53,12 @@ public class Book {
         this.authors = (authors.isEmpty()? new ArrayList<>() : new ArrayList<>(authors));
     }
 
-    private BigDecimal calculateFinalPrice(){
+    public BigDecimal calculateFinalPrice(){
         BigDecimal descuentoDecimal = discountPercentage.divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
         BigDecimal montoDescuento = basePrice.multiply(descuentoDecimal);
         return basePrice.subtract(montoDescuento);
     }
-    private void addAuthor(Author author){
+    public void addAuthor(Author author){
         if(authors.contains(author)){
             throw  new ResourceNotFoundException("The author that you are trying to add already exists");
         }
