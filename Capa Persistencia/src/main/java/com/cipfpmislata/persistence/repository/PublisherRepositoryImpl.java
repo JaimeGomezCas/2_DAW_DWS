@@ -1,34 +1,44 @@
 package com.cipfpmislata.persistence.repository;
 
-import es.cesguiro.domain.repository.PublisherRepository;
-import es.cesguiro.domain.repository.entity.PublisherEntity;
 
-import java.util.List;
+
+import com.cipfpmislata.model.Page;
+import com.cipfpmislata.repository.PublisherRepository;
+import com.cipfpmislata.repository.entity.PublisherEntity;
+
+
 import java.util.Optional;
 
-public class PublisherRepositoryImpl implements PublisherRepository{
+public class PublisherRepositoryImpl implements PublisherRepository {
+
+
     @Override
-    public Optional<PublisherEntity> findById(Long id) {
+    public Page<PublisherEntity> getAll(int i, int i1) {
+        return null;
+    }
+
+    @Override
+    public Optional<PublisherEntity> findBySlug(String s) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<PublisherEntity> findBySlug(String slug) {
+    public Optional<PublisherEntity> findById(Long aLong) {
         return Optional.empty();
     }
 
     @Override
-    public List<PublisherEntity> findAll(int page, int size) {
-        return List.of();
+    public void deleteBySlug(String s) {
+
     }
 
     @Override
-    public Optional<PublisherEntity> create(PublisherEntity publisherEntity) {
-        return Optional.empty();
+    public void deleteById(Long aLong) {
+
     }
 
     @Override
-    public Optional<PublisherEntity> save(PublisherEntity publisherEntity) {
-        return Optional.empty();
+    public PublisherEntity save(PublisherEntity publisherEntity) {
+        return null;
     }
 }

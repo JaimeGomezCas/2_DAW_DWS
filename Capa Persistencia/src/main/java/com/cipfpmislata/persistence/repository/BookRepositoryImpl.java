@@ -1,50 +1,41 @@
 package com.cipfpmislata.persistence.repository;
 
-import es.cesguiro.domain.repository.BookRepository;
-import es.cesguiro.domain.repository.entity.BookEntity;
 
-import java.util.List;
+import com.cipfpmislata.model.Page;
+import com.cipfpmislata.repository.BookRepository;
+import com.cipfpmislata.repository.entity.BookEntity;
+
 import java.util.Optional;
 
+public class BookRepositoryImpl implements BookRepository {
 
-public class BookRepositoryImpl implements BookRepository{
     @Override
-    public List<BookEntity> findAll(int page, int size) {
-        return List.of();
+    public Page<BookEntity> getAll(int i, int i1) {
+        return null;
     }
 
     @Override
-    public Optional<BookEntity> findByIsbn(String isbn) {
+    public Optional<BookEntity> findByIsbn(String s) {
         return Optional.empty();
     }
 
     @Override
-    public List<BookEntity> findByName(String name) {
-        return List.of();
-    }
-
-    @Override
-    public Optional<BookEntity> create(BookEntity bookEntity) {
+    public Optional<BookEntity> findById(Long aLong) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<BookEntity> save(BookEntity bookEntity) {
-        return Optional.empty();
+    public void deleteByIsbn(String s) {
+
     }
 
     @Override
-    public Optional<BookEntity> findBySynopsisEs(String synopsisEs) {
-        return Optional.empty();
+    public void deleteById(Long aLong) {
+
     }
 
     @Override
-    public Optional<BookEntity> findByCover(String cover) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<BookEntity> findBySynopsisEn(String synopsisEn) {
-        return Optional.empty();
+    public BookEntity save(BookEntity bookEntity) {
+        return null;
     }
 }
